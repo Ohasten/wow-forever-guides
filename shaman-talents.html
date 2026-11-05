@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enhancement Talent Tree</title>
+<style>
+:root {
+  --bg: #f4f1ea;
+  --panel: #fffdf8;
+  --panel-2: #ece7db;
+  --ink: #1e2428;
+  --muted: #5d666c;
+  --line: #d8d1c2;
+  --accent: #9c2f22;
+  --link: #0b6a78;
+  --gold: #8a5a00;
+  --gold-bg: #fbeecb;
+  --part-bg: #f6e3d6;
+  --warn-bg: #fdf1dc;
+  --warn-line: #e0b35c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161312;
+    --panel: #211c1a;
+    --panel-2: #2d2623;
+    --ink: #eeeae6;
+    --muted: #aca39c;
+    --line: #40362f;
+    --accent: #f0937f;
+    --link: #6fd0dd;
+    --gold: #f0c566;
+    --gold-bg: #3a2f14;
+    --part-bg: #3a2620;
+    --warn-bg: #2f2615;
+    --warn-line: #7c6126;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 32px 16px 56px; }
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 44px); }
+h2 { font-size: 24px; margin: 40px 0 12px; }
+h3 { font-size: 19px; }
+.lede { color: var(--muted); margin: 8px 0 0; max-width: 62ch; }
+a { color: var(--link); }
+.notice { margin: 20px 0 0; padding: 12px 14px; background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; font-size: 15px; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.tabs button {
+  font: inherit; font-size: 15px; min-height: 40px; padding: 8px 14px; cursor: pointer;
+  background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
+}
+.tabs button[aria-selected="true"] { background: var(--accent); color: var(--panel); border-color: var(--accent); font-weight: 600; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.slider { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 0 0 14px; }
+.slider label { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 72px; }
+.slider input { flex: 1 1 240px; min-height: 40px; accent-color: var(--accent); }
+.slider .sum { color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums; }
+.about { color: var(--muted); font-size: 15px; margin: 0 0 14px; }
+
+.trees { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); }
+.tree { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; min-width: 0; }
+.tree h3 { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.tree h3 span { color: var(--gold); font-variant-numeric: tabular-nums; }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(64px, auto); gap: 5px; }
+.cell {
+  font: inherit; font-size: 12.5px; line-height: 1.2; padding: 5px 4px; cursor: pointer; text-align: center;
+  background: transparent; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 2px; hyphens: auto; overflow-wrap: anywhere;
+}
+.cell b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.cell.part { background: var(--part-bg); color: var(--ink); border: 1px solid var(--accent); }
+.cell.full { background: var(--gold-bg); color: var(--ink); border: 1px solid var(--gold); }
+.cell.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
+.info { margin-top: 12px; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; min-height: 76px; }
+.info strong { display: block; }
+.info p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+
+.facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.fact { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+.fact h3 { margin-bottom: 8px; }
+.fact ol, .fact ul { margin: 0; padding-left: 20px; }
+.fact li { margin: 4px 0; }
+
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); }
+th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; background: var(--panel-2); padding: 8px 12px; }
+td { padding: 8px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.key td { font-weight: 600; }
+.sources { font-size: 15px; color: var(--muted); }
+.sources ul { padding-left: 18px; margin: 8px 0 0; }
+@media (max-width: 400px) { .trees { grid-template-columns: minmax(0, 1fr); } .cell { font-size: 12px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p><a href="index.html">All guides</a></p>
+    <h1>Enhancement Talent Tree</h1>
+    <p class="lede">World of Warcraft: Forever. The shaman talent tree, filled in level by level for a slow two-hander.</p>
+    <p class="notice"><strong>How this was checked.</strong> The tree layout and requirements come from Wowhead's Forever calculator on 5 November 2026, and the leveling order meets every requirement shown there. The order comes from Leprestore. Most guides were written during the level 30 beta, so check the in-game tree before spending points.</p>
+  </header>
+
+  <section>
+    <h2>The tree</h2>
+    <div class="tabs" role="tablist" aria-label="Build" id="builds"></div>
+    <p class="about" id="about"></p>
+    <div class="slider" id="sliderRow">
+      <label for="level" id="levelLabel">Level 60</label>
+      <input id="level" type="range" min="10" max="60" value="60">
+      <span class="sum" id="sum"></span>
+    </div>
+    <div class="trees" id="trees"></div>
+    <div class="info" id="info" aria-live="polite"></div>
+  </section>
+
+  <section>
+    <h2>Stat priority with Mental Dexterity</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Priority once you have it</h3>
+        <ol>
+          <li><strong>Weapon damage:</strong> a slow two-hander first</li>
+          <li><strong>Hit</strong> up to 8% for raid bosses</li>
+          <li><strong>Crit</strong></li>
+          <li><strong>Intellect and Strength:</strong> about equal</li>
+          <li><strong>Stamina</strong></li>
+        </ol>
+      </div>
+      <div class="fact">
+        <h3>Why Intellect climbs</h3>
+        <ul>
+          <li>Mental Dexterity turns Intellect into Attack Power: 100% at rank 1, and Maxroll gives 1 to 1.5 for the full talent.</li>
+          <li>Ancestral Knowledge adds 10% Intellect at rank 1.</li>
+          <li>Mental Quickness adds spell damage from Intellect too.</li>
+          <li>Intellect also gives mana, your main cause of downtime.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Where guides differ</h3>
+        <ul>
+          <li>wow.gg puts Strength above Intellect.</li>
+          <li>A Forever forum post puts Intellect a bit above Strength once the talents are in.</li>
+          <li>Mobalytics says Intellect and Spirit matter most while leveling.</li>
+          <li>No guide has tested numbers, so treat Intellect and Strength as close.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Leveling order</h2>
+    <table>
+      <thead><tr><th>Level</th><th>Talent</th><th>Tree</th></tr></thead>
+      <tbody id="order"></tbody>
+    </table>
+  </section>
+
+  <section class="sources">
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://www.wowhead.com/forever/talent-calc/shaman">Wowhead: Forever Shaman talent calculator</a> (tree, requirements, talent text)</li>
+      <li><a href="https://leprestore.com/guides/world-of-warcraft-forever/wow-forever-enhancement-shaman-guide-best-builds-race-professions/">Leprestore: Enhancement Shaman guide</a> (leveling order and level 60 builds)</li>
+      <li><a href="https://wowforeverbuilds.com/guide/beta-20-enhancement-shaman-leveling">WoW Forever Builds: Enhancement leveling</a></li>
+      <li><a href="https://wow.gg/guides/wow-forever-enhancement-shaman">wow.gg: Enhancement Shaman</a> (stat priority, hit target)</li>
+      <li><a href="https://maxroll.gg/wow-forever/class-guides/shaman-leveling-guide">Maxroll: Shaman leveling guide</a> (Mental Dexterity ratio)</li>
+      <li><a href="https://us.forums.blizzard.com/en/wow/t/legit-enhancement-shaman-question/2360106">Blizzard forums: Enhancement question</a> (Intellect vs Strength)</li>
+      <li><a href="https://mobalytics.gg/wow-forever/classes/enhancement-shaman-guide">Mobalytics: Enhancement guide</a> (leveling stats)</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+// Talent: [name, row, col, max ranks, spell id]
+const TREES = [
+  { name: "Elemental", talents: [
+    ["Convection",0,1,5,16039],["Concussion",0,2,5,16035],
+    ["Elemental Devastation",1,0,3,30160],["Reverberation",1,1,5,16040],["Elemental Alacrity",1,2,3,16578],["Call of Flame",1,3,3,16038],
+    ["Elemental Focus",2,0,1,16164],["Elemental Warding",2,1,3,28996],
+    ["Trial by Fire",3,0,2,16086],["Eye of the Storm",3,1,3,29062],["Earthbound",3,3,1,1222988],
+    ["Elemental Reach",4,0,2,28999],["Call of Thunder",4,1,1,16120],["Lightning Overload",4,2,3,408438],
+    ["Elemental Fury",5,2,5,16089],["Lightning Mastery",6,1,1,16166],
+  ]},
+  { name: "Enhancement", talents: [
+    ["Earth's Grasp",0,0,2,16043],["Thundering Strikes",0,1,5,16255],["Ancestral Knowledge",0,2,5,17485],
+    ["Guardian Totems",1,0,2,16258],["Mental Dexterity",1,1,3,415140],["Improved Lightning Shield",1,2,3,16261],
+    ["Elemental Weapons",2,0,3,16266],["Shamanistic Focus",2,2,1,1223030],["Anticipation",2,3,3,16254],
+    ["Toughness",3,0,5,16252],["Flurry",3,1,5,16256],["Stormstrike",3,2,1,17364],["Improved Ghost Wolf",3,3,2,16262],
+    ["Spirit Weapons",4,0,1,16268],["Mental Quickness",4,1,2,30812],["Improved Stormstrike",4,2,2,1223031],
+    ["Maelstrom Weapon",5,2,5,408498],["Rage of the Farseer",6,1,1,425336],
+  ]},
+  { name: "Restoration", talents: [
+    ["Improved Healing Wave",0,1,5,16182],["Tidal Focus",0,2,5,16179],
+    ["Mindfulness",1,0,3,1223033],["Natural Grace",1,1,3,29187],["Totemic Focus",1,2,5,16173],["Improved Reincarnation",1,3,2,16184],
+    ["Ancestral Healing",2,0,3,16176],["Healing Focus",2,1,3,16181],["Water Shield",2,2,1,408510],
+    ["Tidal Mastery",3,0,5,16194],["Restorative Totems",3,1,5,16187],["Mana Tide Totem",3,2,1,16190],
+    ["Healing Way",4,1,3,29206],["Nature's Swiftness",4,2,1,16188],["Purification",5,2,5,16178],["Riptide",6,1,1,408521],
+  ]},
+];
+
+// Rank 1 text from Wowhead, shortened
+const DESC = {
+  "Thundering Strikes": "+1% crit with spells and attacks per rank.",
+  "Ancestral Knowledge": "Increases your Intellect. Rank 1 is 10%.",
+  "Guardian Totems": "Stronger Stoneskin and Windwall Totems, and a shorter Grounding Totem cooldown.",
+  "Mental Dexterity": "Gives Attack Power equal to a share of your Intellect. Rank 1 is 100%.",
+  "Elemental Weapons": "Stronger Rockbiter, Windfury, Flametongue and Frostbrand. Rank 1 gives Windfury +13%.",
+  "Shamanistic Focus": "Cuts the mana cost of Shocks and Lightning Shield by 45%.",
+  "Stormstrike": "Instant 150% weapon damage. Your next Lightning Bolt, Chain Lightning or Earth Shock on the target deals 20% more. 6 second cooldown.",
+  "Flurry": "Faster attacks for your next 3 swings after a melee crit. Leprestore lists 30% at 5/5. Needs Mental Dexterity 3/3.",
+  "Improved Ghost Wolf": "Shorter Ghost Wolf cast, and it works indoors.",
+  "Mental Quickness": "Adds spell damage and healing from your Intellect. Rank 1 is 30%.",
+  "Maelstrom Weapon": "Melee hits can cut the cast time and mana cost of your next Lightning Bolt by 20%, stacking 5 times.",
+  "Rage of the Farseer": "+30% attack speed for 25 seconds. 3 minute cooldown. Needs Mental Quickness 2/2.",
+  "Improved Stormstrike": "Stormstrike can grant mana regeneration while casting, and Dodge or Parry can reset its cooldown.",
+  "Spirit Weapons": "Lets you parry. Changes your threat by 30% depending on whether Rockbiter is active.",
+  "Toughness": "Increases your Stamina. Rank 1 is 2%.",
+  "Tidal Focus": "Cheaper healing spells and better chance to hit.",
+  "Mindfulness": "Lets some mana regeneration continue while casting. Rank 1 is 5%.",
+  "Totemic Focus": "Cheaper totems. Rank 1 is 5%.",
+};
+
+// Leveling order, one entry per block of points: [first level, talent, points]
+const ORDER = [
+  [10,"Thundering Strikes",5],[15,"Mental Dexterity",3],[18,"Guardian Totems",2],[20,"Elemental Weapons",3],
+  [23,"Shamanistic Focus",1],[24,"Ancestral Knowledge",1],[25,"Stormstrike",1],[26,"Flurry",5],
+  [31,"Improved Ghost Wolf",2],[33,"Mental Quickness",2],[35,"Maelstrom Weapon",5],[40,"Rage of the Farseer",1],
+  [41,"Improved Stormstrike",2],[43,"Spirit Weapons",1],[44,"Ancestral Knowledge",4],[48,"Toughness",3],
+  [51,"Tidal Focus",5],[56,"Mindfulness",3],[59,"Totemic Focus",2],
+];
+const KEY = new Set(["Stormstrike", "Maelstrom Weapon", "Rage of the Farseer"]);
+
+const BUILDS = [
+  { key: "level", title: "Leveling 0 / 41 / 10", about: "Drag the slider to see your tree at any level.", leveling: true },
+  { key: "pve", title: "Raids 17 / 34 / 0", about: "Leprestore marks this as planning, not a confirmed raid build.", ranks: { "Convection":2,"Concussion":5,"Reverberation":1,"Call of Flame":3,"Elemental Devastation":3,"Elemental Focus":1,"Trial by Fire":2,"Thundering Strikes":5,"Ancestral Knowledge":5,"Mental Dexterity":3,"Elemental Weapons":3,"Shamanistic Focus":1,"Flurry":5,"Stormstrike":1,"Spirit Weapons":1,"Mental Quickness":2,"Improved Stormstrike":2,"Maelstrom Weapon":5,"Rage of the Farseer":1 } },
+  { key: "pvp", title: "PvP 12 / 39 / 0", about: "Leprestore marks this as planning too.", ranks: { "Convection":5,"Concussion":5,"Reverberation":2,"Thundering Strikes":5,"Ancestral Knowledge":5,"Guardian Totems":2,"Mental Dexterity":3,"Improved Ghost Wolf":2,"Elemental Weapons":3,"Shamanistic Focus":1,"Toughness":2,"Flurry":5,"Stormstrike":1,"Mental Quickness":2,"Improved Stormstrike":2,"Maelstrom Weapon":5,"Rage of the Farseer":1 } },
+];
+
+const state = { build: "level", level: 60, picked: "Mental Dexterity" };
+const levelRanks = level => {
+  const out = {};
+  let left = level - 9;
+  for (const [, name, pts] of ORDER) {
+    const n = Math.min(pts, Math.max(left, 0));
+    if (n) out[name] = (out[name] || 0) + n;
+    left -= pts;
+  }
+  return out;
+};
+const soft = n => n.replace(/(Reverber|Mindful|Shamanis|Anticipa|Reincarna)/, "$1&shy;");
+const treesEl = document.getElementById("trees");
+const info = document.getElementById("info");
+function render() {
+  const b = BUILDS.find(x => x.key === state.build);
+  const ranks = b.leveling ? levelRanks(state.level) : b.ranks;
+  document.getElementById("about").textContent = b.about;
+  document.getElementById("sliderRow").hidden = !b.leveling;
+  document.getElementById("levelLabel").textContent = "Level " + state.level;
+  const sums = TREES.map(t => t.talents.reduce((n, x) => n + (ranks[x[0]] || 0), 0));
+  document.getElementById("sum").textContent = `${sums.join(" / ")} points`;
+  treesEl.innerHTML = TREES.map((t, i) => `<div class="tree">
+    <h3>${t.name} <span>${sums[i]}</span></h3>
+    <div class="grid">${t.talents.map(x => {
+      const r = ranks[x[0]] || 0;
+      const cls = r === 0 ? "" : r >= x[3] ? "full" : "part";
+      return `<button type="button" class="cell ${cls} ${state.picked === x[0] ? "sel" : ""}" data-name="${x[0]}" style="grid-row:${x[1] + 1};grid-column:${x[2] + 1}" aria-label="${x[0]}, ${r} of ${x[3]}"><span>${soft(x[0])}</span><b>${r}/${x[3]}</b></button>`;
+    }).join("")}</div>
+  </div>`).join("");
+  const t = TREES.flatMap(x => x.talents).find(x => x[0] === state.picked);
+  const when = ORDER.filter(o => o[1] === t[0]).map(o => o[2] > 1 ? `levels ${o[0]} to ${o[0] + o[2] - 1}` : `level ${o[0]}`).join(" and ");
+  info.innerHTML = `<strong>${t[0]}</strong><p>${DESC[t[0]] || "Not used in the leveling build."} ${when ? `Leveling: ${when}.` : ""} <a href="https://www.wowhead.com/forever/spell=${t[4]}" target="_blank" rel="noopener">Wowhead</a></p>`;
+  document.querySelectorAll("#builds button").forEach(x => {
+    const on = x.dataset.b === state.build;
+    x.setAttribute("aria-selected", on);
+    x.tabIndex = on ? 0 : -1;
+  });
+}
+const buildsEl = document.getElementById("builds");
+buildsEl.innerHTML = BUILDS.map(b => `<button type="button" role="tab" data-b="${b.key}">${b.title}</button>`).join("");
+buildsEl.addEventListener("click", e => { const x = e.target.closest("button"); if (x) { state.build = x.dataset.b; render(); } });
+buildsEl.addEventListener("keydown", e => {
+  if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+  const btns = [...buildsEl.querySelectorAll("button")];
+  const next = btns[(btns.indexOf(document.activeElement) + (e.key === "ArrowRight" ? 1 : -1) + btns.length) % btns.length];
+  state.build = next.dataset.b;
+  render();
+  next.focus();
+});
+treesEl.addEventListener("click", e => {
+  const c = e.target.closest(".cell");
+  if (!c) return;
+  state.picked = c.dataset.name;
+  render();
+  treesEl.querySelector(`[data-name="${CSS.escape(state.picked)}"]`).focus();
+});
+document.getElementById("level").addEventListener("input", e => { state.level = +e.target.value; render(); });
+const treeOf = n => TREES.find(t => t.talents.some(x => x[0] === n)).name;
+document.getElementById("order").innerHTML = ORDER.map(([l, n, p]) => `<tr class="${KEY.has(n) ? "key" : ""}">
+  <td class="num">${p > 1 ? `${l} to ${l + p - 1}` : l}</td>
+  <td>${n}${p > 1 ? ` (${p} points)` : ""}</td>
+  <td>${treeOf(n)}</td>
+</tr>`).join("");
+render();
+</script>
+</body>
+</html>

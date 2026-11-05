@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoW Forever Macros</title>
+<style>
+:root {
+  --bg: #f1f2f4;
+  --panel: #ffffff;
+  --panel-2: #e8eaee;
+  --ink: #1d2229;
+  --muted: #5b6470;
+  --line: #d3d7de;
+  --accent: #2c5fa8;
+  --link: #0b6a78;
+  --ok: #1f7a45;
+  --warn: #9a5b00;
+  --warn-bg: #fdf1dc;
+  --warn-line: #e0b35c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151a;
+    --panel: #1b2027;
+    --panel-2: #12161c;
+    --ink: #e8ebef;
+    --muted: #a0a9b5;
+    --line: #333b47;
+    --accent: #8db6f5;
+    --link: #6fd0dd;
+    --ok: #5fc98a;
+    --warn: #f0c566;
+    --warn-bg: #2f2615;
+    --warn-line: #7c6126;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 32px 16px 56px; }
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 44px); }
+h2 { font-size: 24px; margin: 40px 0 12px; }
+h3 { font-size: 18px; }
+.lede { color: var(--muted); margin: 8px 0 0; max-width: 62ch; }
+a { color: var(--link); }
+.howto { margin: 20px 0 0; padding: 12px 14px 12px 34px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.howto li { margin: 2px 0; }
+
+.field { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 12px; }
+.field label { font-weight: 600; }
+.field input {
+  font: inherit; min-height: 40px; padding: 6px 10px; width: 220px; max-width: 100%;
+  color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+}
+.field input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.macro { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; min-width: 0; }
+.macro p { color: var(--muted); font-size: 15px; margin: 4px 0 10px; }
+pre {
+  flex: 1; margin: 0; padding: 10px 12px; overflow-x: auto;
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+  font: 14px/1.5 Consolas, "Cascadia Mono", Menlo, monospace;
+}
+.foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; }
+.len { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.len.over { color: var(--warn); font-weight: 600; }
+button {
+  font: inherit; font-size: 15px; font-weight: 600; min-height: 40px; padding: 6px 14px; cursor: pointer;
+  color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 8px;
+}
+button.done { color: var(--ok); border-color: var(--ok); }
+.notice { margin: 12px 0 0; padding: 12px 14px; background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; font-size: 15px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p><a href="index.html">All guides</a></p>
+    <h1>WoW Forever Macros</h1>
+    <p class="lede">Copy a macro, paste it in the game, and drag it to your action bar.</p>
+    <ol class="howto">
+      <li>Click <strong>Copy</strong> on a macro.</li>
+      <li>In the game, type <code>/macro</code> and click <strong>New</strong>.</li>
+      <li>Name it, pick an icon, and paste with Ctrl+V.</li>
+      <li>Drag it to your action bar.</li>
+    </ol>
+  </header>
+
+  <section>
+    <h2>Follow a player</h2>
+    <div class="field">
+      <label for="player">Player name</label>
+      <input id="player" type="text" value="Griv" maxlength="24" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="grid" id="follow"></div>
+  </section>
+
+  <section>
+    <h2>Shaman combat</h2>
+    <div class="grid" id="combat"></div>
+  </section>
+
+  <section>
+    <h2>Graphics</h2>
+    <div class="grid" id="graphics"></div>
+    <p class="notice">These console commands come from Classic and retail guides and aren't confirmed on Forever. Some may do nothing. Moving the graphics sliders can overwrite them, so click the macro again if that happens.</p>
+  </section>
+</div>
+
+<script>
+const LIMIT = 255;
+const GROUPS = {
+  follow: [
+    { title: "Follow", about: "Follows the player by name.", text: n => `/follow ${n}` },
+    { title: "Target and follow", about: "Use this one if the first doesn't work.", text: n => `/target ${n}\n/follow` },
+  ],
+  combat: [
+    { title: "Lightning Bolt", about: "Casts the bolt and turns on auto attack.", text: () => "#showtooltip Lightning Bolt\n/startattack\n/cast Lightning Bolt" },
+    { title: "Earth Shock", about: "Your filler between Stormstrikes.", text: () => "#showtooltip Earth Shock\n/startattack\n/cast Earth Shock" },
+    { title: "Stormstrike", about: "Your main button from level 25.", text: () => "#showtooltip Stormstrike\n/startattack\n/cast Stormstrike" },
+  ],
+  graphics: [
+    { title: "Wide view and distance", about: "Field of view, zoom, draw distance and grass.", text: () => "/console cameraFov 110\n/console cameraDistanceMaxZoomFactor 4\n/console farclip 10000\n/console horizonStart 6000\n/console horizonClip 10000\n/console groundEffectDensity 256\n/console groundEffectDist 500" },
+    { title: "Shadows and effects", about: "Shadows, water and weather at their highest.", text: () => "/console shadowMode 4\n/console shadowTextureSize 2048\n/console SSAO 4\n/console waterDetail 3\n/console weatherDensity 3\n/console particleDensity 100\n/console physicsLevel 2\n/console gxRestart" },
+    { title: "Lighter on your PC", about: "Keeps the wide view and scales back the heavy settings.", text: () => "/console farclip 5000\n/console horizonStart 3000\n/console horizonClip 6000\n/console groundEffectDensity 128\n/console groundEffectDist 140\n/console shadowMode 2\n/console SSAO 2\n/console maxFPSbk 30\n/console gxRestart" },
+  ],
+};
+
+const input = document.getElementById("player");
+try { const saved = localStorage.getItem("followName"); if (saved) input.value = saved; } catch (e) {}
+const playerName = () => input.value.trim() || "Griv";
+
+function card(m) {
+  const el = document.createElement("article");
+  el.className = "macro";
+  el.innerHTML = `<h3></h3><p></p><pre></pre><div class="foot"><span class="len"></span><button type="button">Copy</button></div>`;
+  el.querySelector("h3").textContent = m.title;
+  el.querySelector("p").textContent = m.about;
+  const pre = el.querySelector("pre");
+  const len = el.querySelector(".len");
+  const btn = el.querySelector("button");
+  const update = () => {
+    const text = m.text(playerName());
+    pre.textContent = text;
+    len.textContent = `${text.length} of ${LIMIT} characters`;
+    len.classList.toggle("over", text.length > LIMIT);
+  };
+  update();
+  input.addEventListener("input", update);
+  btn.addEventListener("click", async () => {
+    const ok = await copy(pre.textContent);
+    btn.textContent = ok ? "Copied" : "Select and copy";
+    btn.classList.toggle("done", ok);
+    if (!ok) { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("done"); }, 1600);
+  });
+  return el;
+}
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  document.body.append(area);
+  area.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) {}
+  area.remove();
+  return ok;
+}
+for (const [id, list] of Object.entries(GROUPS)) list.forEach(m => document.getElementById(id).append(card(m)));
+input.addEventListener("input", () => { try { localStorage.setItem("followName", input.value.trim()); } catch (e) {} });
+</script>
+</body>
+</html>
