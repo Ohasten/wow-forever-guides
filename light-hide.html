@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Light Hide Report</title>
+<style>
+:root {
+  --bg: #f4f1ea;
+  --panel: #fffdf8;
+  --panel-2: #ece7db;
+  --ink: #1e2428;
+  --muted: #5d666c;
+  --line: #d8d1c2;
+  --accent: #7a4a1e;
+  --link: #0b6a78;
+  --gold: #8a5a00;
+  --gold-bg: #fbeecb;
+  --warn-bg: #fdf1dc;
+  --warn-line: #e0b35c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #171411;
+    --panel: #221d18;
+    --panel-2: #2e2720;
+    --ink: #eeeae3;
+    --muted: #aca295;
+    --line: #41372c;
+    --accent: #e0a56b;
+    --link: #6fd0dd;
+    --gold: #f0c566;
+    --gold-bg: #3a2f14;
+    --warn-bg: #2f2615;
+    --warn-line: #7c6126;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 32px 16px 56px; }
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 44px); }
+h2 { font-size: 24px; margin: 40px 0 12px; }
+h3 { font-size: 18px; margin-bottom: 8px; }
+.lede { color: var(--muted); margin: 8px 0 0; max-width: 64ch; }
+a { color: var(--link); }
+p { max-width: 72ch; }
+.answer { margin: 22px 0 0; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--accent); }
+.answer p { margin: 0; }
+.answer p + p { margin-top: 8px; }
+.note { color: var(--muted); font-size: 15px; }
+.notice { padding: 12px 14px; background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; font-size: 15px; max-width: none; }
+.facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.fact { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+.fact ul, .fact ol { margin: 0; padding-left: 20px; }
+.fact li { margin: 4px 0; }
+.inputs { display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 0 0 12px; }
+.inputs label { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+.inputs input { font: inherit; width: 84px; min-height: 40px; padding: 6px 8px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.inputs input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); }
+th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; background: var(--panel-2); padding: 8px 10px; }
+td { padding: 9px 10px; border-top: 1px solid var(--line); vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.big { color: var(--gold); font-weight: 700; }
+.name { font-weight: 600; }
+.sub { display: block; font-size: 13px; color: var(--muted); }
+.badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 0 6px; border-radius: 4px; line-height: 20px; background: var(--gold-bg); color: var(--gold); margin-left: 4px; }
+.sources { font-size: 15px; color: var(--muted); }
+.sources ul { padding-left: 18px; margin: 8px 0 0; }
+@media (max-width: 720px) {
+  table, tbody, tr, td { display: block; width: 100%; }
+  table { background: none; border: 0; }
+  thead { display: none; }
+  tr { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  td { border: 0; padding: 2px 0; white-space: normal !important; }
+  td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); font-weight: 400; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p><a href="index.html">All guides</a></p>
+    <h1>Getting Light Hide in WoW Forever</h1>
+    <p class="lede">Research report for a Horde player, 5 November 2026. What's still vanilla, what changed, and the quickest way to get it.</p>
+    <div class="answer">
+      <p><strong>Fastest:</strong> buy it on the Auction House, if the price is fair. Skinning a full batch of 27 takes hours.</p>
+      <p><strong>Easiest to farm:</strong> Foothills Duskbats in northern Silverpine Forest, a mob new to Forever with the best listed rate. Mottled Worgs sit in the same area as a proven backup.</p>
+    </div>
+  </header>
+
+  <section>
+    <h2>Best places to farm</h2>
+    <div class="inputs">
+      <label for="need">Hides needed <input id="need" type="number" min="1" max="500" value="27"></label>
+      <label for="secs">Seconds per kill and skin <input id="secs" type="number" min="5" max="120" value="25"></label>
+    </div>
+    <table>
+      <thead><tr><th>Mob</th><th>Where</th><th>Hide chance</th><th>Skins per hide</th><th>Time needed</th><th>Skinning</th><th>Health</th></tr></thead>
+      <tbody id="spots"></tbody>
+    </table>
+    <p class="note">Time is an estimate from your two inputs. Change them to match how fast you kill. 25 seconds is my assumption, not a measured number. Skinning shows two values because guides use different rules below mob level 20.</p>
+  </section>
+
+  <section>
+    <h2>Which way to go</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Buy it if</h3>
+        <ul>
+          <li>You need it now, or only need a few.</li>
+          <li>The price beats what your time earns. Compare the time above with your gold per hour.</li>
+          <li>You don't have Skinning.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Farm it if</h3>
+        <ul>
+          <li>You're level 12 or higher and questing nearby anyway.</li>
+          <li>You also want Light Leather, which you'll get far more of.</li>
+          <li>You're leveling Skinning, so the kills pay twice.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>How to farm it</h3>
+        <ol>
+          <li>Train Skinning and carry a Skinning Knife in your bags.</li>
+          <li>Start with Duskbats around 53, 16 in Silverpine.</li>
+          <li>Track your hides for 50 skins. Under 2 or 3 means the rate is low, so move to Mottled Worgs or the Barrens.</li>
+          <li>Keep every Light Leather to sell or use.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What changed from vanilla</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Still the same</h3>
+        <ul>
+          <li>Light Hide comes from skinning beasts around levels 9 to 25, as a rare extra next to Light Leather.</li>
+          <li>Wowhead flags nearly all its skinnable mobs as unchanged.</li>
+          <li>Core Skinning is largely as it was, per Warcraft Tavern.</li>
+          <li>It's a salt-cured reagent: Light Hide plus Salt makes Cured Light Hide.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>New in Forever</h3>
+        <ul>
+          <li>New skinnable mobs: Foothills Duskbat in Silverpine, plus Gray Fox in Duskwood and Elmpaw and Daggerfang on the Alliance side.</li>
+          <li>Ressan the Needler in Tirisfal is marked as updated.</li>
+          <li>Skill gear: Keen Skinning Knife +3, Cartilage Shapers +4, and glove enchants +5 and +10.</li>
+          <li>Waylaid Crates give Cured Light Hide a new use, taking 2 per Apprentice Fabrics crate.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Doesn't help here</h3>
+        <ul>
+          <li>Bountiful Harvest boosts Scarce materials, and nothing says Light Hide counts.</li>
+          <li>Mob drops without skinning are tiny, mostly under 1%. Wolfguard Worgs in Shadowfang Keep show about 12%, but from only 118 samples.</li>
+          <li>Chests give it only about 2 to 5% of the time.</li>
+          <li>No vendor sells it, as far as I could find.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How much you actually need</h2>
+    <p>The wow-professions Leatherworking route uses 27 Light Hide at most: cure them all, then keep 24 for Light Leather Pants at skill 100. Each one needs a Salt from a Leatherworking Supplies vendor. Those are the optional routes, so you may need fewer. Hides also sell to vendors for only 50 copper, so don't overfarm.</p>
+  </section>
+
+  <section>
+    <h2>What isn't confirmed</h2>
+    <p class="notice">Treat every rate as a guide, not a promise.</p>
+    <ul>
+      <li><strong>The Duskbat rate is thin:</strong> 11.1% comes from just 45 skins. The true rate could be roughly 5% to 24%.</li>
+      <li><strong>Other rates may be older:</strong> Wowhead's large samples, like Mottled Worg's 23,943, probably include Classic data. Wowhead marks those mobs unchanged, but nobody has tested them on live Forever yet.</li>
+      <li><strong>Skinning rule conflict:</strong> one guide says 5 times the mob's level, another says lower for mobs under 20. Your tooltip will show which is right.</li>
+      <li><strong>No guide covers this:</strong> no Forever guide names a Light Hide farm or a price. The ranking here is my own, built from Wowhead's numbers.</li>
+      <li><strong>Prices:</strong> check your own Auction House. Forever launched yesterday, so prices will move a lot.</li>
+    </ul>
+  </section>
+
+  <section class="sources">
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://www.wowhead.com/forever/item=783/light-hide">Wowhead Forever: Light Hide</a> (rates, sample sizes, changed mobs)</li>
+      <li><a href="https://www.wowhead.com/forever/npc=277882/foothills-duskbat">Wowhead Forever: Foothills Duskbat</a> and the other mob pages linked above (spawns, health)</li>
+      <li><a href="https://www.warcrafttavern.com/forever/guides/skinning/">Warcraft Tavern: Skinning</a> (core system, gear, Legacy talents)</li>
+      <li><a href="https://www.wow-professions.com/forever/skinning-leveling-guide">wow-professions: Skinning leveling</a> (5 times level rule)</li>
+      <li><a href="https://www.zockify.com/forever/professions/skinning/">Zockify: Skinning</a> (low-level skill rule, enchants)</li>
+      <li><a href="https://www.wow-professions.com/forever/leatherworking-leveling-guide">wow-professions: Leatherworking leveling</a> (hides needed)</li>
+      <li><a href="https://www.zockify.com/forever/waylaid-crates/">Zockify: Waylaid Crates</a></li>
+      <li><a href="https://warcraft.wiki.gg/wiki/Light_Hide">Warcraft Wiki: Light Hide</a> (Classic levels, vendor price)</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+// Mob: [name, npc id, level, zone and coordinates, chance %, samples, skinning, health, note, top pick]
+const SPOTS = [
+  ["Foothills Duskbat", 277882, "12-13", "Silverpine Forest, around 53, 16", 11.1, 45, "30 to 65", "Not listed", "New in Forever. 90 spawn points, but a small sample.", 1],
+  ["Mottled Worg", 1766, "11-12", "Silverpine Forest, around 57, 11", 5.2, 23943, "20 to 60", "247", "Proven backup. Low health, close to the Duskbats."],
+  ["Barrens Kodo", 3236, "19-20", "The Barrens, around 46, 73", 9.9, 1129, "100", "484", "Great rate, but only 9 spawn points. Neutral until attacked."],
+  ["Savannah Patriarch", 3241, "15-16", "The Barrens, around 45, 15", 6.4, 3685, "60 to 80", "356", "Good middle option, 18 spawn points."],
+  ["Zhevra Courser", 3466, "20-21", "The Barrens, around 47, 62", 6.0, 8094, "105", "531", "48 spawn points, so plenty to kill, but tougher."],
+  ["Deviate mobs", 3636, "15-21", "Wailing Caverns", 7.0, 22147, "60 to 105", "Elite", "Group content, about 7%. Only worth it if you're running it anyway."],
+];
+const need = document.getElementById("need");
+const secs = document.getElementById("secs");
+const body = document.getElementById("spots");
+function time(s) {
+  const m = Math.round(s / 60);
+  return m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${m % 60} min`;
+}
+function render() {
+  const n = Math.max(1, +need.value || 1);
+  const t = Math.max(1, +secs.value || 1);
+  body.innerHTML = SPOTS.map(s => {
+    const per = 100 / s[4];
+    return `<tr>
+      <td><a class="name" href="https://www.wowhead.com/forever/npc=${s[1]}" target="_blank" rel="noopener">${s[0]}</a>${s[9] ? ' <span class="badge">Top pick</span>' : ""}<span class="sub">Level ${s[2]}. ${s[8]}</span></td>
+      <td data-l="Where">${s[3]}</td>
+      <td class="num big" data-l="Hide chance">${s[4]}%<span class="sub">${s[5].toLocaleString("en-US")} skins</span></td>
+      <td class="num" data-l="Skins per hide">${Math.round(per)}</td>
+      <td class="num" data-l="Time needed">${time(n * per * t)}</td>
+      <td class="num" data-l="Skinning">${s[6]}</td>
+      <td class="num" data-l="Health">${s[7]}</td>
+    </tr>`;
+  }).join("");
+}
+need.addEventListener("input", render);
+secs.addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
