@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alchemy 1-300</title>
+<style>
+:root {
+  --bg: #f1f3ec;
+  --panel: #fdfef9;
+  --panel-2: #e4e8db;
+  --ink: #1e2622;
+  --muted: #5a665f;
+  --line: #d2d8c8;
+  --accent: #2f6f55;
+  --link: #0b6a78;
+  --gold: #8a5a00;
+  --gold-bg: #fbeecb;
+  --warn-bg: #fdf1dc;
+  --warn-line: #e0b35c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121714;
+    --panel: #1b221e;
+    --panel-2: #252e29;
+    --ink: #e9eeea;
+    --muted: #a2aea6;
+    --line: #35413a;
+    --accent: #7fd0ac;
+    --link: #6fd0dd;
+    --gold: #f0c566;
+    --gold-bg: #3a2f14;
+    --warn-bg: #2f2615;
+    --warn-line: #7c6126;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 32px 16px 56px; }
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 44px); }
+h2 { font-size: 24px; margin: 40px 0 12px; }
+h3 { font-size: 18px; margin-bottom: 8px; }
+.lede { color: var(--muted); margin: 8px 0 0; max-width: 64ch; }
+a { color: var(--link); }
+.answer { margin: 22px 0 0; padding: 16px 18px; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--accent); }
+.answer p { margin: 0; }
+.answer p + p { margin-top: 8px; }
+.note { color: var(--muted); font-size: 15px; max-width: 72ch; }
+.notice { padding: 12px 14px; background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; font-size: 15px; }
+.facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.fact { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+.fact ul { margin: 0; padding-left: 20px; }
+.fact li { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); }
+th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; background: var(--panel-2); padding: 8px 10px; }
+td { padding: 9px 10px; border-top: 1px solid var(--line); vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.skill { color: var(--gold); font-weight: 700; }
+tr.gate td { background: var(--gold-bg); font-weight: 600; }
+.name { font-weight: 600; }
+.sub { display: block; font-size: 14px; color: var(--muted); font-weight: 400; }
+.sources { font-size: 15px; color: var(--muted); }
+.sources ul { padding-left: 18px; margin: 8px 0 0; }
+@media (max-width: 720px) {
+  table, tbody, tr, td { display: block; width: 100%; }
+  table { background: none; border: 0; }
+  thead { display: none; }
+  tr { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  td { border: 0; padding: 2px 0; white-space: normal !important; }
+  td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); font-weight: 400; }
+  tr.gate { background: var(--gold-bg); }
+  tr.gate td { background: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p><a href="index.html">All guides</a></p>
+    <h1>Alchemy 1-300</h1>
+    <p class="lede">World of Warcraft: Forever, Horde. The route, what to buy, and where to train.</p>
+    <div class="answer">
+      <p><strong>Biggest change from Classic:</strong> healing potions moved to First Aid, so old Classic routes no longer work.</p>
+      <p><strong>Pair it with Herbalism,</strong> which supplies most of the herbs. You'll still need to buy vials and get the fish.</p>
+    </div>
+  </header>
+
+  <section>
+    <h2>Route</h2>
+    <table>
+      <thead><tr><th>Skill</th><th>Craft</th><th>Amount</th><th>Materials each</th></tr></thead>
+      <tbody id="route"></tbody>
+    </table>
+    <p class="note">Based on Conquest Capped, the only complete route whose shopping list matches its steps. Orange recipes always give a skill point, while yellow and green don't, so you may need a few extra crafts.</p>
+  </section>
+
+  <section>
+    <h2>Horde trainers</h2>
+    <table>
+      <thead><tr><th>Rank</th><th>Needs</th><th>Cap</th><th>Trainers</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Apprentice</td><td data-l="Needs">No level needed</td><td class="num" data-l="Cap">75</td><td>Whuut (Orgrimmar), Doctor Martin Felben (Undercity), Kray (Thunder Bluff), Miao'zan (Sen'jin Village), Carolai Anise (Brill)</td></tr>
+        <tr><td class="name">Journeyman</td><td data-l="Needs">Skill 50, level 10</td><td class="num" data-l="Cap">150</td><td>Yelmak (Orgrimmar), Doctor Marsh (Undercity), Bena Winterhoof (Thunder Bluff)</td></tr>
+        <tr><td class="name">Expert</td><td data-l="Needs">Skill 125, level 20</td><td class="num" data-l="Cap">225</td><td>Doctor Herbert Halsey (Undercity, The Apothecarium)</td></tr>
+        <tr><td class="name">Artisan</td><td data-l="Needs">Skill 200, level 35</td><td class="num" data-l="Cap">300</td><td>Rogvar (Stonard, Swamp of Sorrows)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Shopping list</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Early herbs</h3>
+        <ul>
+          <li>Peacebloom: 91</li>
+          <li>Silverleaf: 45</li>
+          <li>Mageroyal: 50</li>
+          <li>Earthroot: 54</li>
+          <li>Briarthorn: 60</li>
+          <li>Stranglekelp: 25</li>
+          <li>Kingsblood: 30</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Late herbs</h3>
+        <ul>
+          <li>Wild Steelbloom: 35</li>
+          <li>Goldthorn: 52</li>
+          <li>Khadgar's Whisker: 17</li>
+          <li>Arthas' Tears: 45</li>
+          <li>Sungrass: 60</li>
+          <li>Blindweed: 94</li>
+          <li>Plaguebloom: 51</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Vials and fish</h3>
+        <ul>
+          <li>Empty Vial: 151</li>
+          <li>Leaded Vial: 82</li>
+          <li>Crystal Vial: 75</li>
+          <li>Imbued Vial: 17</li>
+          <li>Firefin Snapper: 40</li>
+        </ul>
+        <p class="note">Alchemy and Trade Supply vendors sell vials. Algernon in Undercity is the closest named.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Recipes you have to buy</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Superior Mana Potion</h3>
+        <p class="note">Algernon, Undercity. Needed at skill 265.</p>
+      </div>
+      <div class="fact">
+        <h3>Major Frenzy Potion</h3>
+        <p class="note">Apothecary Durelle, at the Durotar camp outside the Crossroads, for Merchant's Favor. Needed at skill 290.</p>
+      </div>
+      <div class="fact">
+        <h3>Draught of Detect Undead</h3>
+        <p class="note"><strong>The one gap.</strong> Guides name Master Mycologist Shurome in Felwood, but Horde access isn't confirmed. Check before stocking up on Arthas' Tears.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Herbalism skill to plan for</h2>
+    <p class="note">If you gather everything yourself, keep Herbalism ahead of Alchemy.</p>
+    <table>
+      <thead><tr><th>Herbalism</th><th>Herbs</th></tr></thead>
+      <tbody>
+        <tr><td class="num skill" data-l="Herbalism">1 to 70</td><td>Peacebloom 1, Silverleaf 1, Earthroot 15, Mageroyal 50, Briarthorn 70</td></tr>
+        <tr><td class="num skill" data-l="Herbalism">85 to 170</td><td>Stranglekelp 85, Wild Steelbloom 115, Kingsblood 125, Goldthorn 170</td></tr>
+        <tr><td class="num skill" data-l="Herbalism">185 to 285</td><td>Khadgar's Whisker 185, Arthas' Tears 220, Sungrass 230, Blindweed 235, Plaguebloom 285</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>New in Forever</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Gold makers</h3>
+        <ul>
+          <li>Transmutes are named as steady income. Iron to Gold and Mithril to Truesilver come at 225, with more at 275.</li>
+          <li>Flasks are used up, so they're named as a repeat market.</li>
+          <li>Guides also name Greater Fire Protection and Free Action Potions.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Camp and bonuses</h3>
+        <ul>
+          <li>Mana Well restores mana to nearby players. Guides give skill 20 or 5.</li>
+          <li>Fermenter at 140 and Alchemy Laboratory at 300 both need blueprints.</li>
+          <li>Mixology, a stronger and longer elixir bonus, is unconfirmed.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Worth checking for your classes</h3>
+        <ul>
+          <li>Shaman: Strength elixirs from 150, Greater Strength at 245, Brute Force at 275.</li>
+          <li>Hunter: Minor Agility at 50, up to Greater Agility at 240.</li>
+          <li>Both: Mongoose at 280.</li>
+        </ul>
+        <p class="note">My picks from the names. No guide covers these classes, so check the tooltips.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What isn't confirmed</h2>
+    <p class="notice">All of this is pre-launch data, and the beta stopped short of 300, so everything past about 225 is planned rather than tested.</p>
+    <ul>
+      <li>Fire Oil gives 2 per craft in most guides and 3 in one, so you may need fewer crafts.</li>
+      <li>Guides also differ on the route from 230 to 290. Metabot uses a different recipe line.</li>
+      <li>The Gfinity guide still uses healing potions, so ignore its route.</li>
+    </ul>
+  </section>
+
+  <section class="sources">
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://conquestcapped.com/guides/wow-forever/wow-forever-alchemy/">Conquest Capped: Alchemy</a> (route and shopping list)</li>
+      <li><a href="https://www.wow-professions.com/forever/alchemy-leveling-guide">wow-professions: Alchemy leveling</a> (trainers, vendors)</li>
+      <li><a href="https://leprestore.com/guides/world-of-warcraft-forever/wow-forever-alchemy-leveling-guide-1-300/">Leprestore: Alchemy leveling</a> (Horde recipe sources)</li>
+      <li><a href="https://metabot.gg/en/wow-forever/professions/alchemy">Metabot: Alchemy</a></li>
+      <li><a href="https://kami-labs.fr/en/guide-alchimie-wow-forever/">Kami Labs: Alchemy</a> (transmutes, herb skills)</li>
+      <li><a href="https://wowtbc.gg/warcraftforever/professions/alchemy/">wowtbc.gg: Alchemy</a></li>
+      <li><a href="https://www.gfinityesports.com/article/world-of-warcraft-forever-alchemy-guide-1-300-leveling-trainers">Gfinity: Alchemy</a> (gold makers)</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+// Step: [skill, craft, amount, materials, note]. A step with only a skill and label is a trainer stop.
+const ROUTE = [
+  ["1-10", "Minor Arcane Elixir", 9, "Peacebloom, Empty Vial"],
+  ["10-55", "Elixir of Minor Defense", 45, "Silverleaf, Peacebloom, Empty Vial"],
+  ["55-65", "Minor Mana Potion", 10, "Mageroyal, Peacebloom, Empty Vial"],
+  ["65-75", "Elixir of Minor Fortitude", 10, "2 Earthroot, Peacebloom, Empty Vial"],
+  ["75", "Train Journeyman"],
+  ["75-90", "Elixir of Minor Fortitude", 17, "2 Earthroot, Peacebloom, Empty Vial"],
+  ["90-120", "Elixir of Wisdom", 30, "Mageroyal, 2 Briarthorn, Empty Vial"],
+  ["120-130", "Lesser Mana Potion", 10, "Mageroyal, Stranglekelp, Empty Vial"],
+  ["130-150", "Fire Oil", 20, "2 Firefin Snapper, Empty Vial", "Keep the oil for the next step."],
+  ["150", "Train Expert"],
+  ["150-165", "Elixir of Fire Power", 15, "2 Fire Oil, Kingsblood, Leaded Vial"],
+  ["165-180", "Mana Potion", 15, "Stranglekelp, Kingsblood, Leaded Vial"],
+  ["180-195", "Elixir of Lesser Fortitude", 15, "Wild Steelbloom, Goldthorn, Leaded Vial"],
+  ["195-215", "Elixir of Defense", 20, "Wild Steelbloom, Goldthorn, Leaded Vial"],
+  ["215-225", "Greater Mana Potion", 11, "Khadgar's Whisker, Goldthorn, Leaded Vial"],
+  ["225", "Train Artisan with Rogvar in Stonard"],
+  ["225-230", "Greater Mana Potion", 6, "Khadgar's Whisker, Goldthorn, Leaded Vial"],
+  ["230-265", "Draught of Detect Undead", 45, "Arthas' Tears, Crystal Vial", "Check the Horde recipe source first."],
+  ["265-290", "Superior Mana Potion", 30, "2 Sungrass, 2 Blindweed, Crystal Vial", "Bought recipe."],
+  ["290-300", "Major Frenzy Potion", 17, "3 Plaguebloom, 2 Blindweed, Imbued Vial", "Bought recipe."],
+];
+document.getElementById("route").innerHTML = ROUTE.map(([skill, craft, amount, mats, note]) => amount
+  ? `<tr>
+      <td class="num skill" data-l="Skill">${skill}</td>
+      <td><span class="name">${craft}</span>${note ? `<span class="sub">${note}</span>` : ""}</td>
+      <td class="num" data-l="Amount">${amount}</td>
+      <td data-l="Materials">${mats}</td>
+    </tr>`
+  : `<tr class="gate"><td class="num" data-l="Skill">${skill}</td><td colspan="3">${craft}</td></tr>`).join("");
+</script>
+</body>
+</html>
