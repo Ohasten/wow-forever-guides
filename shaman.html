@@ -78,12 +78,16 @@ a { color: var(--link); }
 .fact ul, .fact ol { margin: 0; padding-left: 20px; }
 .fact li { margin: 4px 0; }
 
-.check { display: inline-flex; gap: 8px; align-items: center; font-size: 15px; cursor: pointer; margin-bottom: 4px; min-height: 40px; }
-.check input { width: 18px; height: 18px; accent-color: var(--accent); }
-.check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.tabs button {
+  font: inherit; font-size: 15px; min-height: 40px; padding: 8px 14px; cursor: pointer;
+  background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px;
+}
+.tabs button[aria-selected="true"] { background: var(--accent); color: var(--panel); border-color: var(--accent); font-weight: 600; }
+.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tabs .count { font-size: 13px; opacity: .75; margin-left: 4px; }
+.tab-blurb { color: var(--muted); font-size: 15px; margin: 0 0 10px; }
 
-.bracket { margin-top: 24px; }
-.bracket h3 { margin-bottom: 8px; }
 table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); }
 th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; background: var(--panel-2); padding: 8px 12px; }
 td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; }
@@ -162,9 +166,9 @@ col.c-lvl { width: 64px; } col.c-name { width: 30%; } col.c-big { width: 84px; }
   </section>
 
   <section>
-    <h2>All slow two-handers and where to find them</h2>
-    <label class="check"><input type="checkbox" id="picksOnly"> Route picks only</label>
-    <div id="list"></div>
+    <h2>Where to find them</h2>
+    <div class="tabs" role="tablist" aria-label="Weapon source" id="tabs"></div>
+    <div role="tabpanel" id="panel"></div>
   </section>
 
   <section>
@@ -298,42 +302,57 @@ function renderRoute() {
     </li>`;
   }).join("");
 }
-const GROUPS = [
-  { title: "Drops", kinds: ["Drop", "World drop", "Bind on equip"] },
-  { title: "Quests", kinds: ["Quest", "Class quest"] },
-  { title: "Vendors", kinds: ["Vendor"], blurb: "Vendor locations come from Classic data, so they may have moved." },
-  { title: "Professions", kinds: ["Crafted"], blurb: "All Blacksmithing. Most bind on equip, so you can buy them on the Auction House." },
+const DUNGEON = /Ruins of Lordaeron|Deadmines|Razorfen Kraul|Stockade|Scarlet Monastery|Uldaman/;
+const isDungeon = r => r[7] === "Drop" && DUNGEON.test(r[8]);
+const TABS = [
+  { key: "quests", title: "Quests", blurb: "Quest names link to Wowhead.", test: r => ["Quest", "Class quest"].includes(r[7]) },
+  { key: "vendors", title: "Vendors", blurb: "Vendor locations come from Classic data, so they may have moved.", test: r => r[7] === "Vendor" },
+  { key: "professions", title: "Professions", blurb: "All Blacksmithing. Most bind on equip, so you can buy them on the Auction House.", test: r => r[7] === "Crafted" },
+  { key: "dungeons", title: "Dungeons", blurb: "Boss drops. Axe of Orgrimmar and Hammerbone are dungeon quest rewards, so they're in the Quests tab.", test: isDungeon },
+  { key: "world", title: "World drops", blurb: "Not a dungeon, quest or vendor. Most are random drops, so the Auction House is the realistic way to get them.", test: r => ["Drop", "World drop", "Bind on equip"].includes(r[7]) && !isDungeon(r) },
 ];
-function renderList(picksOnly) {
-  document.getElementById("list").innerHTML = GROUPS.map(g => {
-    const shown = rows.filter(r => g.kinds.includes(r[7]) && (!picksOnly || r[10])).sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
-    if (!shown.length) return "";
-    return `<div class="bracket">
-      <h3>${g.title}</h3>
-      ${g.blurb ? `<p class="route-note" style="margin:0 0 8px">${g.blurb}</p>` : ""}
-      <table>
-        <colgroup><col class="c-lvl"><col class="c-name"><col class="c-big"><col class="c-rng"><col class="c-spd"><col></colgroup>
-        <thead><tr><th>Level</th><th>Weapon</th><th>Top hit</th><th>Damage</th><th>Speed</th><th>Where to find it</th></tr></thead>
-        <tbody>${shown.map(r => `<tr>
-          <td class="num" data-l="Level">${r[0]}</td>
-          <td><span class="name">${item(r[2], r[1])}</span>${r[10] ? ' <span class="badge">Route</span>' : ""}<span class="type">${r[6]}</span></td>
-          <td class="num big" data-l="Top hit">${r[4]}</td>
-          <td class="num" data-l="Damage">${r[3]} to ${r[4]}</td>
-          <td class="num" data-l="Speed">${r[5].toFixed(1)}</td>
-          <td><span class="kind">${r[7]}:</span> ${r[8]}${r[9] ? `<span class="note">${r[9]}</span>` : ""}</td>
-        </tr>`).join("")}</tbody>
-      </table>
-    </div>`;
-  }).join("");
+TABS.forEach(t => { t.rows = rows.filter(t.test).sort((a, b) => parseInt(a[0]) - parseInt(b[0])); });
+const tabsEl = document.getElementById("tabs");
+const panel = document.getElementById("panel");
+tabsEl.innerHTML = TABS.map(t => `<button type="button" role="tab" id="tab-${t.key}" data-tab="${t.key}" aria-controls="panel">${t.title}<span class="count">${t.rows.length}</span></button>`).join("");
+function show(key) {
+  const t = TABS.find(x => x.key === key);
+  tabsEl.querySelectorAll("button").forEach(b => {
+    const on = b.dataset.tab === key;
+    b.setAttribute("aria-selected", on);
+    b.tabIndex = on ? 0 : -1;
+  });
+  panel.setAttribute("aria-labelledby", "tab-" + key);
+  panel.innerHTML = `<p class="tab-blurb">${t.blurb}</p>
+    <table>
+      <colgroup><col class="c-lvl"><col class="c-name"><col class="c-big"><col class="c-rng"><col class="c-spd"><col></colgroup>
+      <thead><tr><th>Level</th><th>Weapon</th><th>Top hit</th><th>Damage</th><th>Speed</th><th>Where to find it</th></tr></thead>
+      <tbody>${t.rows.map(r => `<tr>
+        <td class="num" data-l="Level">${r[0]}</td>
+        <td><span class="name">${item(r[2], r[1])}</span>${r[10] ? ' <span class="badge">Route</span>' : ""}<span class="type">${r[6]}</span></td>
+        <td class="num big" data-l="Top hit">${r[4]}</td>
+        <td class="num" data-l="Damage">${r[3]} to ${r[4]}</td>
+        <td class="num" data-l="Speed">${r[5].toFixed(1)}</td>
+        <td>${r[8]}${r[9] ? `<span class="note">${r[9]}</span>` : ""}</td>
+      </tr>`).join("")}</tbody>
+    </table>`;
 }
+tabsEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) show(b.dataset.tab); });
+tabsEl.addEventListener("keydown", e => {
+  if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+  const btns = [...tabsEl.querySelectorAll("button")];
+  const i = btns.indexOf(document.activeElement);
+  const next = btns[(i + (e.key === "ArrowRight" ? 1 : -1) + btns.length) % btns.length];
+  next.focus();
+  show(next.dataset.tab);
+});
 document.getElementById("quests").innerHTML = QUESTS.map(q => {
   const tag = q.list ? "ol" : "ul";
   return `<div class="fact"><h3>${q.title}</h3><${tag}>${q.steps.map(s => `<li>${s}</li>`).join("")}</${tag}></div>`;
 }).join("");
 document.getElementById("skip").innerHTML = SKIP.map(s => `<li>${item(s[1], s[0])}: ${s[2]}</li>`).join("");
-document.getElementById("picksOnly").addEventListener("change", e => renderList(e.target.checked));
 renderRoute();
-renderList(false);
+show("quests");
 </script>
 </body>
 </html>
