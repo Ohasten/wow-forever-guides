@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoW Copper: Sell Bars or Craft Armor?</title>
+<style>
+  :root {
+    --bg: #f7f4ee; --card: #ffffff; --text: #26221c; --muted: #6b6358;
+    --line: #e2dbcf; --accent: #a8561f; --gain: #1f7a45; --loss: #b3322b;
+    --highlight: #fbf0e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1b1916; --card: #24211d; --text: #eee8dd; --muted: #a79e90;
+      --line: #3a352e; --accent: #e09a5f; --gain: #5fc98a; --loss: #ef7f77;
+      --highlight: #33291f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 20px 56px; }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 6px; }
+  h2 { font-size: 1.15rem; margin: 36px 0 10px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .verdict {
+    background: var(--card); border: 1px solid var(--line);
+    border-left: 4px solid var(--accent); border-radius: 8px; padding: 16px 18px;
+  }
+  .verdict p { margin: 0; }
+  .verdict p + p { margin-top: 8px; }
+  .table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: 0; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
+  .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .best td { background: var(--highlight); font-weight: 600; }
+  .gain { color: var(--gain); font-weight: 600; }
+  .loss { color: var(--loss); font-weight: 600; }
+  .note { color: var(--muted); font-size: 0.9rem; margin-top: 10px; }
+  ul { padding-left: 20px; margin: 0; }
+  li + li { margin-top: 8px; }
+  a { color: var(--accent); }
+  .sources { font-size: 0.88rem; color: var(--muted); columns: 2; column-gap: 28px; }
+  .sources li { break-inside: avoid; margin-top: 4px; }
+  @media (max-width: 560px) { .sources { columns: 1; } }
+</style>
+</head>
+<body>
+<main>
+  <p><a href="index.html">All guides</a></p>
+  <h1>Sell copper bars or craft armor?</h1>
+  <p class="sub">World of Warcraft Classic, Blacksmithing up to skill 35</p>
+
+  <div class="verdict">
+    <p><strong>Selling to a vendor:</strong> make Copper Battle Axes if you have 2 Malachite, for about +2s 23c each. Without Malachite, make Copper Chain Pants for +27c each.</p>
+    <p><strong>Selling on the auction house:</strong> plain bars are likely better. Sell bars instead of vendoring axes if a bar earns over about 29c after the auction house cut, or instead of vendoring pants if it earns over about 17c.</p>
+  </div>
+
+  <h2>Vendor value of each recipe</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th class="num">Skill</th>
+          <th>Ingredients</th>
+          <th class="num">Ingredients' value</th>
+          <th class="num">Item's price</th>
+          <th class="num">Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="best">
+          <td>Copper Battle Axe</td><td class="num">35</td>
+          <td>12 Copper Bars, 2 Weak Flux, 2 Malachite, 2 Rough Grinding Stones, 2 Light Leather</td>
+          <td class="num">3s 90c</td><td class="num">6s 13c</td><td class="num gain">+2s 23c</td>
+        </tr>
+        <tr>
+          <td>Copper Chain Vest (needs plans)</td><td class="num">35</td>
+          <td>8 Copper Bars, 2 Rough Grinding Stones</td>
+          <td class="num">90c</td><td class="num">1s 42c</td><td class="num gain">+52c</td>
+        </tr>
+        <tr>
+          <td>Copper Chain Pants</td><td class="num">1</td>
+          <td>4 Copper Bars</td>
+          <td class="num">40c</td><td class="num">67c</td><td class="num gain">+27c</td>
+        </tr>
+        <tr>
+          <td>Copper Dagger</td><td class="num">30</td>
+          <td>6 Copper Bars, 1 Weak Flux, 1 Rough Grinding Stone, 1 Light Leather</td>
+          <td class="num">1s 80c</td><td class="num">1s 94c</td><td class="num gain">+14c</td>
+        </tr>
+        <tr>
+          <td>Rough Sharpening Stone</td><td class="num">1</td>
+          <td>1 Rough Stone</td>
+          <td class="num">2c</td><td class="num">3c</td><td class="num gain">+1c</td>
+        </tr>
+        <tr>
+          <td>Rough Grinding Stone</td><td class="num">25</td>
+          <td>2 Rough Stone</td>
+          <td class="num">4c</td><td class="num">5c</td><td class="num gain">+1c</td>
+        </tr>
+        <tr>
+          <td>Copper Bracers</td><td class="num">1</td>
+          <td>2 Copper Bars</td>
+          <td class="num">20c</td><td class="num">17c</td><td class="num loss">-3c</td>
+        </tr>
+        <tr>
+          <td>Copper Chain Belt</td><td class="num">35</td>
+          <td>6 Copper Bars</td>
+          <td class="num">60c</td><td class="num">56c</td><td class="num loss">-4c</td>
+        </tr>
+        <tr>
+          <td>Rough Copper Vest</td><td class="num">1</td>
+          <td>4 Copper Bars</td>
+          <td class="num">40c</td><td class="num">32c</td><td class="num loss">-8c</td>
+        </tr>
+        <tr>
+          <td>Rough Weightstone</td><td class="num">1</td>
+          <td>1 Rough Stone, 1 Linen Cloth</td>
+          <td class="num">15c</td><td class="num">3c</td><td class="num loss">-12c</td>
+        </tr>
+        <tr>
+          <td>Copper Chain Boots</td><td class="num">20</td>
+          <td>8 Copper Bars</td>
+          <td class="num">80c</td><td class="num">49c</td><td class="num loss">-31c</td>
+        </tr>
+        <tr>
+          <td>Copper Shortsword</td><td class="num">25</td>
+          <td>6 Copper Bars, 1 Weak Flux, 2 Linen Cloth</td>
+          <td class="num">1s 86c</td><td class="num">1s 10c</td><td class="num loss">-76c</td>
+        </tr>
+        <tr>
+          <td>Copper Axe</td><td class="num">20</td>
+          <td>6 Copper Bars, 1 Weak Flux, 2 Linen Cloth</td>
+          <td class="num">1s 86c</td><td class="num">1s 9c</td><td class="num loss">-77c</td>
+        </tr>
+        <tr>
+          <td>Copper Claymore</td><td class="num">30</td>
+          <td>10 Copper Bars, 2 Weak Flux, 1 Rough Grinding Stone, 1 Light Leather</td>
+          <td class="num">3s 20c</td><td class="num">2s 41c</td><td class="num loss">-79c</td>
+        </tr>
+        <tr>
+          <td>Copper Mace</td><td class="num">15</td>
+          <td>6 Copper Bars, 1 Weak Flux, 2 Linen Cloth</td>
+          <td class="num">1s 86c</td><td class="num">1s 6c</td><td class="num loss">-80c</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Ingredients are valued at what a vendor would pay for them: Copper Bar 10c, Rough Stone 2c, Rough Grinding Stone 5c, Linen Cloth 13c, Light Leather 15c, Malachite 15c. Weak Flux is valued at its 1s purchase price. Heavy Copper Longsword is left out: it's Alliance-only, and its listed 27c price looks wrong next to the other weapons.</p>
+
+  <h2>Good to know</h2>
+  <ul>
+    <li><strong>Smelting:</strong> always smelt before selling to a vendor. Ore sells for 5c and a bar for 10c. You need the Mining profession to smelt.</li>
+    <li><strong>Auction house:</strong> one Classic guide puts bars at about 0.75&ndash;1g per stack, or roughly 4&ndash;5s per bar with 20 in a stack. That guide may be out of date. Only craft items to sell there if they go for more than their ingredients do, after the auction house cut.</li>
+    <li><strong>Malachite:</strong> it only drops from about 1% of Copper Veins. If you have to buy it, the axe stops being worth it above about 1s 26c per Malachite. Check whether yours is worth more on the auction house before using it.</li>
+    <li><strong>Chain Vest:</strong> the plans are a world drop, and how easy they are to get is unconfirmed. It's only worth considering if you already have them.</li>
+    <li><strong>Skill points:</strong> the pants should give a guaranteed skill point on every craft up to 50, and the Battle Axe up to 75. You may need to learn these recipes from a trainer first, and training costs aren't included here.</li>
+  </ul>
+
+  <h2>Before you craft a big batch</h2>
+  <ul>
+    <li>These are Classic wiki prices. If you play a different version, check them in-game.</li>
+    <li>Live auction prices for your realm aren't included, so compare bars and pants there first.</li>
+  </ul>
+
+  <h2>Sources</h2>
+  <ul class="sources">
+    <li><a href="https://warcraft.wiki.gg/wiki/Classic_blacksmithing_plans">Classic blacksmithing plans</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Bar">Copper Bar</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Ore">Copper Ore</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Chain_Pants">Copper Chain Pants</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Bracers">Copper Bracers</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Rough_Copper_Vest">Rough Copper Vest</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Mace">Copper Mace</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Battle_Axe">Copper Battle Axe</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Chain_Vest">Copper Chain Vest</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Plans:_Copper_Chain_Vest">Plans: Copper Chain Vest</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Dagger">Copper Dagger</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Chain_Belt">Copper Chain Belt</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Chain_Boots">Copper Chain Boots</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Shortsword">Copper Shortsword</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Axe">Copper Axe</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Copper_Claymore">Copper Claymore</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Heavy_Copper_Longsword">Heavy Copper Longsword</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Rough_Grinding_Stone">Rough Grinding Stone</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Malachite">Malachite</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Light_Leather">Light Leather</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Rough_Sharpening_Stone">Rough Sharpening Stone</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Rough_Weightstone">Rough Weightstone</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Rough_Stone">Rough Stone</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Linen_Cloth">Linen Cloth</a></li>
+    <li><a href="https://warcraft.wiki.gg/wiki/Weak_Flux">Weak Flux</a></li>
+    <li><a href="https://noobtoboss.com/wow-classic-copper-ore-farming-guide/">Copper ore farming guide</a></li>
+  </ul>
+</main>
+</body>
+</html>
