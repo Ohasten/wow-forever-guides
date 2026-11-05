@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orc Hunter Weapons</title>
+<style>
+:root {
+  --bg: #f4f1ea;
+  --panel: #fffdf8;
+  --panel-2: #ece7db;
+  --ink: #1e2428;
+  --muted: #5d666c;
+  --line: #d8d1c2;
+  --accent: #3f6b2f;
+  --link: #0b6a78;
+  --gold: #8a5a00;
+  --gold-bg: #fbeecb;
+  --bar: #5f8f3e;
+  --warn-bg: #fdf1dc;
+  --warn-line: #e0b35c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131612;
+    --panel: #1c211a;
+    --panel-2: #272e24;
+    --ink: #eaeee6;
+    --muted: #a3ac9c;
+    --line: #363f31;
+    --accent: #a5d486;
+    --link: #6fd0dd;
+    --gold: #f0c566;
+    --gold-bg: #3a2f14;
+    --bar: #8fc56b;
+    --warn-bg: #2f2615;
+    --warn-line: #7c6126;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 32px 16px 56px; }
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 44px); }
+h2 { font-size: 24px; margin: 40px 0 12px; }
+h3 { font-size: 19px; }
+.lede { color: var(--muted); margin: 8px 0 0; max-width: 62ch; }
+a { color: var(--link); }
+
+.notice {
+  margin: 20px 0 0; padding: 12px 14px;
+  background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px;
+  font-size: 15px;
+}
+
+.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.route li {
+  display: grid; grid-template-columns: 76px minmax(0, 1fr) 150px; gap: 12px; align-items: center;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+}
+.route .lv { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.route .nm { font-weight: 600; line-height: 1.3; }
+.route .how { display: block; font-size: 14px; font-weight: 400; color: var(--muted); }
+.hit { font-size: 14px; font-variant-numeric: tabular-nums; }
+.hit strong { color: var(--gold); font-size: 16px; }
+.bar { display: block; height: 6px; margin-top: 3px; border-radius: 3px; background: var(--bar); }
+.route-note { color: var(--muted); font-size: 15px; margin: 10px 0 0; }
+
+.facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.fact { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+.fact h3 { margin-bottom: 8px; }
+.fact ul, .fact ol { margin: 0; padding-left: 20px; }
+.fact li { margin: 4px 0; }
+
+.check { display: inline-flex; gap: 8px; align-items: center; font-size: 15px; cursor: pointer; margin-bottom: 4px; min-height: 40px; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.bracket { margin-top: 24px; }
+.bracket h3 { margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); }
+th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; background: var(--panel-2); padding: 8px 12px; }
+td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.big { color: var(--gold); font-weight: 700; }
+col.c-lvl { width: 64px; } col.c-name { width: 30%; } col.c-big { width: 84px; } col.c-rng { width: 96px; } col.c-spd { width: 66px; }
+.name { font-weight: 600; }
+.type { display: block; font-size: 13px; color: var(--muted); }
+.badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 0 6px; border-radius: 4px; line-height: 20px; background: var(--gold-bg); color: var(--gold); margin-left: 4px; }
+.kind { font-weight: 600; }
+.note { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+.skip { color: var(--muted); }
+.sources { font-size: 15px; color: var(--muted); }
+.sources ul { padding-left: 18px; margin: 8px 0 0; }
+
+@media (max-width: 680px) {
+  .wrap { padding-top: 24px; }
+  .route li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  table { background: none; border: 0; }
+  colgroup, thead { display: none; }
+  tr { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  td { border: 0; padding: 2px 0; white-space: normal !important; }
+  td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); font-weight: 400; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p><a href="index.html">All guides</a></p>
+    <h1>Orc Hunter Weapons</h1>
+    <p class="lede">World of Warcraft: Forever, Horde, levels 3 to 60. Slow bows, guns and crossbows ranked by the biggest single shot, not DPS.</p>
+    <p class="notice"><strong>How this was checked.</strong> Damage, speed and quest IDs come from Wowhead's Forever database on 5 November 2026. Drop chances and vendor locations come from pre-launch guides and Classic data, and nothing was tested in the live game.</p>
+  </header>
+
+  <section>
+    <h2>The route: biggest shot at each level</h2>
+    <ol class="route" id="route"></ol>
+    <p class="route-note">"Shot" is the weapon's top damage roll, before ammo, attack power and abilities. Route picks favour weapons you can reliably get. World drops can hit harder, so check the Auction House as you level.</p>
+  </section>
+
+  <section>
+    <h2>Before you start</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Why slow wins here</h3>
+        <ul>
+          <li>One Marksmanship guide recommends slow weapons because Aimed Shot damage is based on weapon damage.</li>
+          <li>Aimed Shot is baseline at level 20 and shares a cooldown with Multi-Shot.</li>
+          <li>Keep your arrows or bullets upgraded, plus your quiver or ammo pouch.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Weapon skills for Orc</h3>
+        <ul>
+          <li>You start with bows, axes and daggers, so bows work straight away.</li>
+          <li><strong>Guns:</strong> Ansekhwa, Thunder Bluff</li>
+          <li><strong>Crossbows:</strong> Archibald, Undercity</li>
+          <li>Hunters can't use maces, so most Shaman picks don't carry over.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Melee slot</h3>
+        <ul>
+          <li>No guide gives a hunter melee route. These are big slow axes with no training needed:</li>
+          <li><span id="melee"></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Quest links</h2>
+    <div class="facts"><div class="fact"><h3>Ranged weapon quests</h3><ul id="quests"></ul></div></div>
+  </section>
+
+  <section>
+    <h2>All ranged weapons and where to find them</h2>
+    <label class="check"><input type="checkbox" id="picksOnly"> Route picks only</label>
+    <div id="list"></div>
+  </section>
+
+  <section>
+    <h2>Skip these</h2>
+    <p class="skip">Good DPS on paper, but fast with small shots:</p>
+    <ul class="skip" id="skip"></ul>
+  </section>
+
+  <section class="sources">
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://www.wowhead.com/forever/">Wowhead Forever database</a> (damage, speed, quest IDs)</li>
+      <li><a href="https://wowclassicforever.info/classes/hunter/weapons/">WoW Classic Forever: Hunter weapon planner</a> (weapon types, drop chances, trainers)</li>
+      <li><a href="https://www.zockify.com/forever/hunter/leveling/">Zockify: Hunter leveling guide</a> (quests, ammo)</li>
+      <li><a href="https://www.method.gg/wow-forever/the-best-weapons-in-wow-forever-from-levels-1-30">Method: Best weapons, levels 1 to 30</a></li>
+      <li><a href="https://metabot.gg/en/wow-forever/items/fine-longbow">Metabot item pages</a> (vendors, from Classic data)</li>
+      <li><a href="https://kami-labs.fr/en/wow-forever/build-chasseur-precision-wow-forever/">Kami Labs: Marksmanship Hunter build</a> (slow weapons)</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const item = (id, name) => `<a href="https://www.wowhead.com/forever/item=${id}" target="_blank" rel="noopener">${name}</a>`;
+const quest = (id, name) => `<a href="https://www.wowhead.com/forever/quest=${id}" target="_blank" rel="noopener">${name}</a>`;
+const AH = "BoE. Check the Auction House";
+
+// Row: [level, name, item id, min, max, speed, type, source kind, where, note, route pick]
+const rows = [
+  ["3", "Hornwood Recurve Bow", 2506, 3, 7, 2.1, "Bow", "Vendor", "Ghrawt, Durotar (53, 41) or Trayexir, Durotar (56.5, 73.1)", "Always in stock, about 3 silver."],
+  ["4", "Kolkar Bow", 286729, 5, 10, 2.8, "Bow", "Quest", quest(99123, "Lost in the Shadows") + ", Durotar", "Quest is level 8.", 1],
+  ["10", "Misplaced Shooter", 277255, 9, 18, 2.8, "Gun", "Quest", quest(98545, "Leonid's Letter") + ", Tirisfal Glades", "Needs gun training."],
+  ["11", "Laminated Recurve Bow", 2507, 10, 20, 2.6, "Bow", "Vendor", "Ghrawt, Durotar (53, 41) or Zendo'jian, Orgrimmar (81.1, 18.7)", "Always in stock, about 18 silver.", 1],
+  ["14", "Fine Longbow", 11304, 14, 26, 2.7, "Bow", "Vendor", "Uthrok (11.2, 61.3 on the Durotar map). Also Starn, Thousand Needles (44.9, 50.7), and Borand, Stonetalon Mountains (45.4, 59.1)", "Limited stock, about 49 silver. One guide places Uthrok in The Barrens.", 1],
+  ["16", "Lil Timmy's Peashooter", 13136, 20, 37, 2.6, "Gun", "World drop", AH],
+  ["19", "Bow of Plunder", 3742, 20, 39, 2.6, "Bow", "Quest", quest(567, "Dangerous!") + ", Hillsbrad Foothills", "Quest is level 28, minimum 19.", 1],
+  ["20", "Ranger Bow", 3021, 23, 45, 2.7, "Bow", "World drop", AH],
+  ["22", "Steelarrow Crossbow", 6315, 29, 45, 3.4, "Crossbow", "Drop", "Dark Iron Rifleman, Wetlands. BoE, so also the Auction House", "The slowest weapon here until level 51. Needs crossbow training.", 1],
+  ["27", "Crystalpine Stinger", 13037, 35, 54, 2.8, "Crossbow", "World drop", AH],
+  ["28", "Master Hunter's Rifle", 17687, 35, 66, 2.6, "Gun", "Quest", quest(208, "Big Game Hunter") + ", Stranglethorn Vale", "Quest is level 43, minimum 28, so it's a hard fight this early."],
+  ["28", "Master Hunter's Bow", 17686, 32, 61, 2.4, "Bow", "Quest", quest(208, "Big Game Hunter") + ", Stranglethorn Vale", "Same quest. Choose the rifle for the bigger, slower shot."],
+  ["29", "Quilboar Blaster", 274084, 36, 68, 2.8, "Gun", "Quest", quest(1102, "A Vengeful Fate") + ", from Auld Stonespire, Thunder Bluff. Razorfen Kraul", "Needs gun training.", 1],
+  ["30", "Glass Shooter", 9456, 36, 68, 2.9, "Gun", "Drop", "Dark Iron Ambassador, Gnomeregan (33%)"],
+  ["30", "Long Redwood Bow", 15286, 28, 52, 2.8, "Bow", "World drop", AH],
+  ["30", "Booty Bay Bruiser's Buckshot", 274748, 35, 66, 2.8, "Gun", "Vendor", "Gezzy Gunkgear, Stranglethorn Vale", "Needs Honored with Booty Bay."],
+  ["36", "Monolithic Bow", 9426, 41, 77, 2.7, "Bow", "Drop", "Uldaman. BoE, so also the Auction House", "", 1],
+  ["37", "Bow of Searing Arrows", 2825, 47, 88, 2.7, "Bow", "World drop", "BoE epic. Check the Auction House", "Rare, so likely expensive."],
+  ["37", "The Silencer", 13138, 43, 82, 2.8, "Gun", "World drop", AH],
+  ["39", "Sniper Rifle", 3430, 42, 79, 3.0, "Gun", "World drop", AH],
+  ["39", "Mithril Heavy-bore Rifle", 10510, 41, 76, 2.9, "Gun", "Crafted", "Engineering 220, BoE. Check the Auction House"],
+  ["40", "Truthseeker's Bow", 277254, 46, 87, 2.8, "Bow", "Quest", quest(82208, "Greater Friend of the Library") + ", turn in 25 library books", "Wowhead has two versions of this quest. I linked the level 45 one.", 1],
+  ["42", "Massive Longbow", 11307, 43, 80, 2.8, "Bow", "Vendor", "Kuna Thunderhorn, Thunder Bluff (47, 45.7) or Abigail Sawyer, Undercity (54.7, 38.8)", "Limited stock, about 6 gold 80 silver."],
+  ["43", "Skull Splitting Crossbow", 13039, 52, 79, 2.6, "Crossbow", "World drop", AH],
+  ["45", "Verdant Keeper's Aim", 17753, 53, 100, 2.8, "Bow", "Quest", quest(7064, "Corruption of Earth and Seed") + ", from Selendra, Desolace. Maraudon", "Your group must defeat Princess Theradras.", 1],
+  ["45", "Guttbuster", 13139, 49, 92, 2.7, "Gun", "World drop", AH],
+  ["50", "Gryphonwing Long Bow", 13022, 53, 100, 2.7, "Bow", "World drop", AH],
+  ["50", "Dark Iron Rifle", 16004, 53, 100, 2.7, "Gun", "Crafted", "Engineering, BoE. Check the Auction House"],
+  ["51", "Heartseeking Crossbow", 13040, 71, 108, 3.1, "Crossbow", "World drop", AH],
+  ["51", "Bloodseeker", 19107, 85, 128, 3.3, "Crossbow", "Quest", quest(8272, "Hero of the Frostwolf") + ", Alterac Valley", "Win a battle, then pick the crossbow from the follow-up quest.", 1],
+  ["55", "The Purifier", 22656, 71, 132, 3.0, "Gun", "Quest", "Eastern Plaguelands, per Wowhead", "Biggest shot here. I couldn't confirm the quest name.", 1],
+  ["56", "Flawless Arcanite Rifle", 16007, 65, 122, 3.0, "Gun", "Crafted", "Engineering, BoE. Check the Auction House"],
+  ["60", "Fahrad's Reloading Repeater", 22347, 85, 128, 3.2, "Crossbow", "Quest", quest(9023, "The Perfect Poison")],
+];
+
+const MELEE = [[15424, "Axe of Orgrimmar", "level 9, up to 64"], [271217, "Corpse Chopper", "level 16, up to 79"], [6687, "Corpsemaker", "level 29, up to 132"], [870, "Fiery War Axe", "level 35, up to 175"]];
+const SKIP = [
+  ["Nightstalker Bow", 6696, "17 DPS, but 1.7 speed."],
+  ["Barbaric Crossbow", 272999, "2.0 speed, and it needs crossbow training."],
+  ["Eaglehorn Long Bow", 13023, "32 DPS at level 58, but 1.8 speed."],
+];
+const QUESTS = [[99123, "Lost in the Shadows", "Kolkar Bow"], [98545, "Leonid's Letter", "Misplaced Shooter"], [567, "Dangerous!", "Bow of Plunder"], [208, "Big Game Hunter", "Master Hunter's Rifle or Bow"], [1102, "A Vengeful Fate", "Quilboar Blaster"], [82208, "Greater Friend of the Library", "Truthseeker's Bow"], [7064, "Corruption of Earth and Seed", "Verdant Keeper's Aim"], [8272, "Hero of the Frostwolf", "Bloodseeker"], [9023, "The Perfect Poison", "Fahrad's Reloading Repeater"]];
+const GROUPS = [
+  { title: "Drops", kinds: ["Drop", "World drop"] },
+  { title: "Quests", kinds: ["Quest"] },
+  { title: "Vendors", kinds: ["Vendor"], blurb: "Vendor locations come from Classic data, so they may have moved." },
+  { title: "Professions", kinds: ["Crafted"], blurb: "All Engineering. They bind on equip, so you can buy them on the Auction House." },
+];
+
+const topHit = Math.max(...rows.map(r => r[4]));
+document.getElementById("route").innerHTML = rows.filter(r => r[10]).map(r => `<li>
+  <span class="lv">Level ${r[0]}</span>
+  <span class="nm">${item(r[2], r[1])}<span class="how">${r[6]}. ${r[7]}: ${r[8].replace(/<[^>]+>/g, "")}</span></span>
+  <span class="hit"><strong>${r[4]}</strong> shot, ${r[5].toFixed(1)} speed<span class="bar" style="width:${Math.round(r[4] / topHit * 100)}%"></span></span>
+</li>`).join("");
+
+function renderList(picksOnly) {
+  document.getElementById("list").innerHTML = GROUPS.map(g => {
+    const shown = rows.filter(r => g.kinds.includes(r[7]) && (!picksOnly || r[10]));
+    if (!shown.length) return "";
+    return `<div class="bracket">
+      <h3>${g.title}</h3>
+      ${g.blurb ? `<p class="route-note" style="margin:0 0 8px">${g.blurb}</p>` : ""}
+      <table>
+        <colgroup><col class="c-lvl"><col class="c-name"><col class="c-big"><col class="c-rng"><col class="c-spd"><col></colgroup>
+        <thead><tr><th>Level</th><th>Weapon</th><th>Top shot</th><th>Damage</th><th>Speed</th><th>Where to find it</th></tr></thead>
+        <tbody>${shown.map(r => `<tr>
+          <td class="num" data-l="Level">${r[0]}</td>
+          <td><span class="name">${item(r[2], r[1])}</span>${r[10] ? ' <span class="badge">Route</span>' : ""}<span class="type">${r[6]}</span></td>
+          <td class="num big" data-l="Top shot">${r[4]}</td>
+          <td class="num" data-l="Damage">${r[3]} to ${r[4]}</td>
+          <td class="num" data-l="Speed">${r[5].toFixed(1)}</td>
+          <td><span class="kind">${r[7]}:</span> ${r[8]}${r[9] ? `<span class="note">${r[9]}</span>` : ""}</td>
+        </tr>`).join("")}</tbody>
+      </table>
+    </div>`;
+  }).join("");
+}
+document.getElementById("melee").innerHTML = MELEE.map(m => `${item(m[0], m[1])} (${m[2]})`).join(", ");
+document.getElementById("quests").innerHTML = QUESTS.map(q => `<li>${quest(q[0], q[1])}: ${q[2]}</li>`).join("");
+document.getElementById("skip").innerHTML = SKIP.map(s => `<li>${item(s[1], s[0])}: ${s[2]}</li>`).join("");
+document.getElementById("picksOnly").addEventListener("change", e => renderList(e.target.checked));
+renderList(false);
+</script>
+</body>
+</html>

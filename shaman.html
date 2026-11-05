@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orc Shaman Weapons</title>
+<style>
+:root {
+  --bg: #f4f1ea;
+  --panel: #fffdf8;
+  --panel-2: #ece7db;
+  --ink: #1e2428;
+  --muted: #5d666c;
+  --line: #d8d1c2;
+  --accent: #9c2f22;
+  --link: #0b6a78;
+  --gold: #8a5a00;
+  --gold-bg: #fbeecb;
+  --bar: #c8553d;
+  --warn-bg: #fdf1dc;
+  --warn-line: #e0b35c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161312;
+    --panel: #211c1a;
+    --panel-2: #2d2623;
+    --ink: #eeeae6;
+    --muted: #aca39c;
+    --line: #40362f;
+    --accent: #f0937f;
+    --link: #6fd0dd;
+    --gold: #f0c566;
+    --gold-bg: #3a2f14;
+    --bar: #e0735c;
+    --warn-bg: #2f2615;
+    --warn-line: #7c6126;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 32px 16px 56px; }
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(30px, 6vw, 44px); }
+h2 { font-size: 24px; margin: 40px 0 12px; }
+h3 { font-size: 19px; }
+.lede { color: var(--muted); margin: 8px 0 0; max-width: 62ch; }
+a { color: var(--link); }
+
+.notice {
+  margin: 20px 0 0; padding: 12px 14px;
+  background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px;
+  font-size: 15px;
+}
+
+.route { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.route li {
+  display: grid; grid-template-columns: 76px minmax(0, 1fr) 150px; gap: 12px; align-items: center;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+}
+.route .lv { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.route .nm { font-weight: 600; line-height: 1.3; }
+.route .how { display: block; font-size: 14px; font-weight: 400; color: var(--muted); }
+.hit { font-size: 14px; font-variant-numeric: tabular-nums; }
+.hit strong { color: var(--gold); font-size: 16px; }
+.bar { display: block; height: 6px; margin-top: 3px; border-radius: 3px; background: var(--bar); }
+.route-note { color: var(--muted); font-size: 15px; margin: 10px 0 0; }
+
+.facts { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.fact { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+.fact h3 { margin-bottom: 8px; }
+.fact ul, .fact ol { margin: 0; padding-left: 20px; }
+.fact li { margin: 4px 0; }
+
+.check { display: inline-flex; gap: 8px; align-items: center; font-size: 15px; cursor: pointer; margin-bottom: 4px; min-height: 40px; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.bracket { margin-top: 24px; }
+.bracket h3 { margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); }
+th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; background: var(--panel-2); padding: 8px 12px; }
+td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.big { color: var(--gold); font-weight: 700; }
+col.c-lvl { width: 64px; } col.c-name { width: 30%; } col.c-big { width: 84px; } col.c-rng { width: 96px; } col.c-spd { width: 66px; }
+.name { font-weight: 600; }
+.type { display: block; font-size: 13px; color: var(--muted); }
+.badge { display: inline-block; font-size: 12px; font-weight: 600; padding: 0 6px; border-radius: 4px; line-height: 20px; background: var(--gold-bg); color: var(--gold); margin-left: 4px; }
+.kind { font-weight: 600; }
+.note { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+.skip { color: var(--muted); }
+.sources { font-size: 15px; color: var(--muted); }
+.sources ul { padding-left: 18px; margin: 8px 0 0; }
+
+@media (max-width: 680px) {
+  .wrap { padding-top: 24px; }
+  .route li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  table { background: none; border: 0; }
+  colgroup, thead { display: none; }
+  tr { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+  td { border: 0; padding: 2px 0; white-space: normal !important; }
+  td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); font-weight: 400; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p><a href="index.html">All guides</a></p>
+    <h1>Orc Shaman Weapons</h1>
+    <p class="lede">World of Warcraft: Forever, Horde, levels 8 to 60. Slow two-handers ranked by the biggest single hit, not DPS.</p>
+    <p class="notice"><strong>How this was checked.</strong> Damage, speed and quest IDs come from Wowhead's Forever database on 5 November 2026. Drop chances and some locations come from pre-launch guides, and nothing was tested in the live game.</p>
+  </header>
+
+  <section>
+    <h2>The route: biggest hit at each level</h2>
+    <ol class="route" id="route"></ol>
+    <p class="route-note">"Hit" is the weapon's top damage roll before your attack power is added. Many of these are world drops, so check the Auction House. If one is too expensive, use the next best weapon in the list below.</p>
+  </section>
+
+  <section>
+    <h2>Before you start</h2>
+    <div class="facts">
+      <div class="fact">
+        <h3>Why slow wins here</h3>
+        <ul>
+          <li>Every hit is a bigger number, so a swing can take a big chunk of a mob's health.</li>
+          <li>Pick the higher top hit first, then the slower speed if two are close.</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Weapon skills for Orc</h3>
+        <ul>
+          <li>You start with maces, staves and shields, so staves work straight away.</li>
+          <li>If a two-hander shows red, train it.</li>
+          <li><strong>Axes:</strong> Sayoc or Hanashi, Orgrimmar</li>
+          <li><strong>Maces:</strong> Ansekhwa, Thunder Bluff</li>
+        </ul>
+      </div>
+      <div class="fact">
+        <h3>Weapon imbues</h3>
+        <ul>
+          <li><strong>Level 1:</strong> Rockbiter Weapon</li>
+          <li><strong>Level 30:</strong> Windfury Weapon, which is a big power jump with a two-hander</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Quest links</h2>
+    <div class="facts" id="quests"></div>
+  </section>
+
+  <section>
+    <h2>All slow two-handers and where to find them</h2>
+    <label class="check"><input type="checkbox" id="picksOnly"> Route picks only</label>
+    <div id="list"></div>
+  </section>
+
+  <section>
+    <h2>Skip these</h2>
+    <p class="skip">Good DPS on paper, but fast with small hits:</p>
+    <ul class="skip" id="skip"></ul>
+  </section>
+
+  <section class="sources">
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://www.wowhead.com/forever/">Wowhead Forever database</a> (damage, speed, quest IDs)</li>
+      <li><a href="https://timesaver.gg/blog/wow-forever-enhancement-shaman-leveling-weapons">Timesaver: Enhancement leveling weapons</a> (drop chances)</li>
+      <li><a href="https://wowclassicforever.info/classes/shaman/weapons/">WoW Classic Forever: Shaman weapon planner</a> (drop chances)</li>
+      <li><a href="https://www.zockify.com/forever/shaman/leveling/">Zockify: Shaman leveling guide</a> (imbues)</li>
+      <li><a href="https://mmonster.co/wow-forever/guides/shaman">mmonster: Shaman guide</a> (weapon trainers, beta data)</li>
+      <li><a href="https://metabot.gg/en/wow-forever/items/heavy-spiked-mace">Metabot: Heavy Spiked Mace</a> and <a href="https://metabot.gg/en/wow-forever/items/tabar">Tabar</a> (vendors, from Classic data)</li>
+      <li><a href="https://warcraft.wiki.gg/wiki/Lizzarik">Warcraft Wiki: Lizzarik</a> and <a href="https://warcraft.wiki.gg/wiki/Kizz_Bluntstrike">Kizz Bluntstrike</a> (vendor locations)</li>
+      <li><a href="https://conquestcapped.com/guides/wow-forever/wow-forever-shaman-weapon-quest/">Conquest Capped: Shaman weapon quest</a> (Horde quest order)</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const item = (id, name) => `<a href="https://www.wowhead.com/forever/item=${id}" target="_blank" rel="noopener">${name}</a>`;
+const quest = (id, name) => `<a href="https://www.wowhead.com/forever/quest=${id}" target="_blank" rel="noopener">${name}</a>`;
+
+// Row: [level, name, item id, min, max, speed, type, source kind, where, note, route pick]
+const BRACKETS = [
+  { title: "Levels 8 to 19", rows: [
+    ["8", "Battleguard Captain's Sticker", 284286, 26, 40, 3.7, "2H", "Drop", "Captain Flat Tusk, Durotar", "", 1],
+    ["8", "Copper Battle Axe", 3488, 25, 38, 3.5, "2H axe", "Crafted", "Blacksmithing, BoE. Check the Auction House"],
+    ["9", "Tabar", 1196, 21, 32, 3.2, "2H axe", "Vendor", "Urtharo, Orgrimmar (47.6, 68.4). Also Delgo Ragetotem (54.1, 57.2) and Jyn Stonehoof (41.4, 62.4), Thunder Bluff", "Always in stock, about 22 silver."],
+    ["9", "Stonewood Hammer", 5345, 24, 37, 3.2, "2H mace", "Quest", quest(855, "Centaur Bracers") + ", The Barrens"],
+    ["9", "Axe of Orgrimmar", 15424, 42, 64, 3.3, "2H axe", "Quest", quest(5730, "Hidden Enemies") + ", final step, Ragefire Chasm", "Takes the whole chain. The last steps are level 16.", 1],
+    ["11", "Heavy Copper Maul", 6214, 28, 43, 3.3, "2H mace", "Crafted", "Blacksmithing, BoE. Check the Auction House"],
+    ["12", "Zhovur Axe", 5318, 32, 49, 3.1, "2H axe", "Quest", quest(876, "Serena Bloodfeather") + ", The Barrens"],
+    ["13", "Barbaric Battle Axe", 3195, 34, 52, 3.6, "2H", "World drop", "BoE. Check the Auction House"],
+    ["14", "Heavy Spiked Mace", 4778, 34, 51, 3.4, "2H mace", "Vendor", "Vrang Wildgore, The Barrens (43.8, 12.2). Also Wallace the Blind, Silverpine Forest (46.5, 86.5), Kizz Bluntstrike, Booty Bay, and Lizzarik", "Limited stock, about 73 silver. Lizzarik is placed in Durotar (31.6, 78.9) on one site and on the Crossroads to Ratchet road on another."],
+    ["15", "Segmented Spider Leg", 271203, 50, 76, 3.6, "Staff", "Drop", "Witherfang, Ruins of Lordaeron (about 31%)", "A staff, so no training needed."],
+    ["15", "Forsaken Greataxe", 251533, 49, 74, 3.0, "2H axe", "Quest", quest(92422, "The Wrath of Rath'mael") + ", from Deathguard Kristof, Brill"],
+    ["16", "Corpse Chopper", 271217, 52, 79, 3.6, "2H axe", "Drop", "Bjork, Ruins of Lordaeron"],
+    ["18", "Smite's Mighty Hammer", 7230, 55, 83, 3.5, "2H mace", "Drop", "Mr. Smite, The Deadmines (about 19%)", "The Deadmines is in Alliance territory."],
+    ["18", "Rockslicer", 872, 52, 78, 3.3, "2H axe", "Drop", "Rhahk'Zor, The Deadmines (5%)"],
+    ["19", "Twisted Chanter's Staff", 890, 55, 84, 3.4, "2H", "World drop", "BoE. Check the Auction House"],
+  ]},
+  { title: "Levels 20 to 29", rows: [
+    ["10", "Hammerbone", 270018, 55, 84, 3.4, "2H mace", "Quest", quest(914, "Leaders of the Fang") + ", from Nara Wildmane, Wailing Caverns", "Usable from 10, but the quest is level 22, so expect about 20.", 1],
+    ["23", "Taurenbane's Family Cleaver", 285328, 62, 94, 3.4, "2H", "Drop", "Hagg Taurenbane, The Barrens", "", 1],
+    ["23", "Graverobber's Shovel", 273817, 68, 102, 3.7, "2H", "Drop", "Dextren Ward, The Stockade", "Inside Stormwind, so hard to reach as Horde."],
+    ["24", "Striking Staff", 279844, 77, 117, 3.1, "Staff", "Quest", quest(96984, "Heart of Disruption") + ", from Image of Archmage Modera", "Quest is level 33, minimum 24."],
+    ["28", "Ancient Cleaver", 286983, 80, 120, 3.6, "2H", "Bind on equip", "Source not listed. Check the Auction House"],
+    ["28", "Guardian's Dualblade", 273046, 78, 117, 3.5, "2H", "Drop", "Unstable Sentinel, Alterac Mountains"],
+    ["28", "Burning War Axe", 2299, 73, 110, 3.3, "2H", "World drop", "BoE. Check the Auction House"],
+    ["29", "Corpsemaker", 6687, 88, 132, 3.8, "2H axe", "Drop", "Overlord Ramtusk, Razorfen Kraul (40%)", "The best pick before 35: big, slow, and +15 Strength.", 1],
+  ]},
+  { title: "Levels 30 to 39", rows: [
+    ["30", "Rage of the Storm", 280604, 91, 137, 3.2, "2H mace", "Class quest", quest(79442, "The Tempest's Weapons") + ", Alterac Mountains", "Also +10% Stormstrike damage. See the chain above."],
+    ["30", "Silver Spade", 4128, 89, 134, 3.7, "2H", "Quest", quest(600, "Quest 600") + " (Venture Company Mining)", "I couldn't confirm Horde can do this one."],
+    ["32", "The Shoveler", 9391, 88, 133, 3.4, "2H", "World drop", "BoE. Check the Auction House"],
+    ["35", "Abandoned Ferocity", 271801, 95, 143, 3.2, "2H axe", "Quest", quest(93128, "Khan Jehn") + ", from Nerlokh, Desolace", "Quest is level 42, minimum 35."],
+    ["35", "Fiery War Axe", 870, 116, 175, 3.6, "2H axe", "World drop", "BoE epic. Check the Auction House", "Rare, so likely expensive."],
+    ["36", "The Pacifier", 6327, 117, 176, 4.0, "2H mace", "Drop", "Lo'Grosh, Alterac Mountains (about 16%). BoE, so also the Auction House", "Slowest weapon on this list, with +20 Strength.", 1],
+    ["37", "Ravager", 7717, 104, 157, 3.5, "2H axe", "Drop", "Herod, Scarlet Monastery (15%)"],
+    ["37", "Monstrous War Axe", 1640, 92, 139, 3.7, "2H", "World drop", "BoE. Check the Auction House"],
+    ["39", "Pendulum of Doom", 9425, 124, 187, 4.0, "2H", "Drop", "Uldaman, per Wowhead. Boss not checked", "", 1],
+  ]},
+  { title: "Levels 40 to 49", rows: [
+    ["43", "Executioner's Cleaver", 13018, 127, 191, 3.8, "2H", "World drop", "BoE. Check the Auction House", "", 1],
+    ["43", "Conk Hammer", 3208, 104, 157, 3.5, "2H", "World drop", "BoE. Check the Auction House"],
+    ["44", "Kang the Decapitator", 2291, 136, 205, 3.6, "2H", "World drop", "BoE epic. Check the Auction House", "Rare, so likely expensive.", 1],
+    ["49", "Soulkeeper", 1607, 141, 213, 3.8, "2H", "World drop", "BoE. Check the Auction House", "", 1],
+  ]},
+  { title: "Levels 50 to 60", rows: [
+    ["50", "Dark Iron Pulverizer", 11608, 140, 211, 3.7, "2H", "Crafted", "Blacksmithing, BoE. Check the Auction House"],
+    ["50", "Thorium Greatmace", 250613, 136, 205, 3.6, "2H mace", "Crafted", "Blacksmithing, binds on pickup", "Blacksmiths only."],
+    ["51", "Colossal Great Axe", 15271, 132, 198, 3.8, "2H", "World drop", "BoE. Check the Auction House"],
+    ["51", "Enchanted Battlehammer", 12776, 135, 203, 3.5, "2H", "Crafted", "Blacksmithing, BoE. Check the Auction House"],
+    ["53", "Twig of the World Tree", 13047, 147, 221, 3.7, "2H", "World drop", "BoE. Check the Auction House", "", 1],
+    ["58", "Stormcarver", 250617, 155, 233, 3.6, "2H axe", "Crafted", "Blacksmithing 300, BoE. Check the Auction House", "", 1],
+    ["60", "Forest Defender's Axe", 279260, 162, 244, 3.3, "2H axe", "Crafted", "Blacksmithing, BoE epic. Check the Auction House", "Biggest hit here, though faster than Stormcarver.", 1],
+  ]},
+];
+
+const ROUTE_HOW = {
+  "Hammerbone": "Level 10 to use, about 20 to earn",
+  "Axe of Orgrimmar": "End of the Ragefire Chasm chain",
+};
+
+const QUESTS = [
+  { title: "Hidden Enemies (Axe of Orgrimmar)", list: true, steps: [
+    quest(5726, "Hidden Enemies, step 1") + ": Lieutenant's Insignia from Skull Rock, for Thrall",
+    quest(5727, "Step 2"), quest(5728, "Step 3"), quest(5729, "Step 4"),
+    quest(5730, "Step 5, final") + ": choose Axe of Orgrimmar",
+  ]},
+  { title: "Shaman weapon chain (Rage of the Storm)", list: true, steps: [
+    quest(1531, "Call of Air") + ": Thousand Needles, level 30",
+    quest(79360, "Elemental Aid") + ": Tattered Note from Charlga Razorflank, Razorfen Kraul",
+    quest(79364, "Eyes on the Sky"),
+    quest(79361, "Storm, Earth, and Fire") + ": collect the Twisted Totems",
+    quest(79366, "Heed My Call") + ": steam pools, Thousand Needles",
+    quest(79442, "The Tempest's Weapons") + ": turn in to Bath'rah, Alterac Mountains",
+  ]},
+  { title: "Single quests", steps: [
+    quest(855, "Centaur Bracers") + ": Regthar Deathgate, The Barrens (min 9)",
+    quest(876, "Serena Bloodfeather") + ": Darsok Swiftdagger (min 12)",
+    quest(92422, "The Wrath of Rath'mael") + ": Deathguard Kristof, Brill (min 15)",
+    quest(914, "Leaders of the Fang") + ": Nara Wildmane (min 10, quest level 22)",
+    quest(96984, "Heart of Disruption") + ": Image of Archmage Modera (min 24)",
+    quest(93128, "Khan Jehn") + ": Nerlokh, Desolace (min 35)",
+  ]},
+];
+
+const SKIP = [
+  ["Manual Crowd Pummeler", 9449, "46 to 70 at 2.0 speed. It shows 29 DPS, but your hits are tiny next to Corpsemaker."],
+  ["Will of the Mountain Giant", 10652, "88 to 133 at 2.8 speed."],
+  ["Enchanted Azsharite Felbane Staff", 10698, "104 to 157 at 2.8 speed. The Pacifier hits harder 17 levels earlier."],
+  ["Midnight Axe", 12250, "49 to 75 at 2.7 speed."],
+];
+
+const rows = BRACKETS.flatMap(b => b.rows);
+const topHit = Math.max(...rows.map(r => r[4]));
+function renderRoute() {
+  const picks = rows.filter(r => r[10]);
+  document.getElementById("route").innerHTML = picks.map(r => {
+    const how = ROUTE_HOW[r[1]] || `${r[7]}: ${r[8].replace(/<[^>]+>/g, "")}`;
+    return `<li>
+      <span class="lv">${r[1] === "Hammerbone" ? "~20" : "Level " + r[0]}</span>
+      <span class="nm">${item(r[2], r[1])}<span class="how">${how}</span></span>
+      <span class="hit"><strong>${r[4]}</strong> hit, ${r[5].toFixed(1)} speed<span class="bar" style="width:${Math.round(r[4] / topHit * 100)}%"></span></span>
+    </li>`;
+  }).join("");
+}
+const GROUPS = [
+  { title: "Drops", kinds: ["Drop", "World drop", "Bind on equip"] },
+  { title: "Quests", kinds: ["Quest", "Class quest"] },
+  { title: "Vendors", kinds: ["Vendor"], blurb: "Vendor locations come from Classic data, so they may have moved." },
+  { title: "Professions", kinds: ["Crafted"], blurb: "All Blacksmithing. Most bind on equip, so you can buy them on the Auction House." },
+];
+function renderList(picksOnly) {
+  document.getElementById("list").innerHTML = GROUPS.map(g => {
+    const shown = rows.filter(r => g.kinds.includes(r[7]) && (!picksOnly || r[10])).sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
+    if (!shown.length) return "";
+    return `<div class="bracket">
+      <h3>${g.title}</h3>
+      ${g.blurb ? `<p class="route-note" style="margin:0 0 8px">${g.blurb}</p>` : ""}
+      <table>
+        <colgroup><col class="c-lvl"><col class="c-name"><col class="c-big"><col class="c-rng"><col class="c-spd"><col></colgroup>
+        <thead><tr><th>Level</th><th>Weapon</th><th>Top hit</th><th>Damage</th><th>Speed</th><th>Where to find it</th></tr></thead>
+        <tbody>${shown.map(r => `<tr>
+          <td class="num" data-l="Level">${r[0]}</td>
+          <td><span class="name">${item(r[2], r[1])}</span>${r[10] ? ' <span class="badge">Route</span>' : ""}<span class="type">${r[6]}</span></td>
+          <td class="num big" data-l="Top hit">${r[4]}</td>
+          <td class="num" data-l="Damage">${r[3]} to ${r[4]}</td>
+          <td class="num" data-l="Speed">${r[5].toFixed(1)}</td>
+          <td><span class="kind">${r[7]}:</span> ${r[8]}${r[9] ? `<span class="note">${r[9]}</span>` : ""}</td>
+        </tr>`).join("")}</tbody>
+      </table>
+    </div>`;
+  }).join("");
+}
+document.getElementById("quests").innerHTML = QUESTS.map(q => {
+  const tag = q.list ? "ol" : "ul";
+  return `<div class="fact"><h3>${q.title}</h3><${tag}>${q.steps.map(s => `<li>${s}</li>`).join("")}</${tag}></div>`;
+}).join("");
+document.getElementById("skip").innerHTML = SKIP.map(s => `<li>${item(s[1], s[0])}: ${s[2]}</li>`).join("");
+document.getElementById("picksOnly").addEventListener("change", e => renderList(e.target.checked));
+renderRoute();
+renderList(false);
+</script>
+</body>
+</html>
