@@ -152,7 +152,7 @@ tr.gate td { background: var(--gold-bg); font-weight: 600; }
   </section>
 
   <section>
-    <h2>Recipes you have to buy</h2>
+    <h2>Recipes to pick up</h2>
     <div class="facts">
       <div class="fact">
         <h3>Superior Mana Potion</h3>
@@ -164,7 +164,7 @@ tr.gate td { background: var(--gold-bg); font-weight: 600; }
       </div>
       <div class="fact">
         <h3>Draught of Detect Undead</h3>
-        <p class="note"><strong>The one gap.</strong> Guides name Master Mycologist Shurome in Felwood, but Horde access isn't confirmed. Check before stocking up on Arthas' Tears.</p>
+        <p class="note">Not bought: learn it from Rogvar in Stonard at skill 230, the same trainer as Artisan. Confirmed on Wowhead's Forever page.</p>
       </div>
     </div>
   </section>
@@ -215,9 +215,9 @@ tr.gate td { background: var(--gold-bg); font-weight: 600; }
 
   <section>
     <h2>What isn't confirmed</h2>
-    <p class="notice">All of this is pre-launch data, and the beta stopped short of 300, so everything past about 225 is planned rather than tested.</p>
+    <p class="notice">Every recipe, material and skill range in the route matches Wowhead's Forever database, checked 6 November 2026. Nobody has tested the route past about 225 on live Forever yet, and the shopping list comes from a pre-launch guide.</p>
     <ul>
-      <li>Fire Oil gives 2 per craft in most guides and 3 in one, so you may need fewer crafts.</li>
+      <li>Trainer and vendor locations come from the guides, except Rogvar. Superior Mana and Major Frenzy are listed as vendor recipes on Wowhead, but I didn't confirm which vendors.</li>
       <li>Guides also differ on the route from 230 to 290. Metabot uses a different recipe line.</li>
       <li>The Gfinity guide still uses healing potions, so ignore its route.</li>
     </ul>
@@ -226,6 +226,7 @@ tr.gate td { background: var(--gold-bg); font-weight: 600; }
   <section class="sources">
     <h2>Sources</h2>
     <ul>
+      <li><a href="https://www.wowhead.com/forever/spells/professions/alchemy">Wowhead Forever: Alchemy recipes</a> (materials, skill ranges, recipe sources)</li>
       <li><a href="https://conquestcapped.com/guides/wow-forever/wow-forever-alchemy/">Conquest Capped: Alchemy</a> (route and shopping list)</li>
       <li><a href="https://www.wow-professions.com/forever/alchemy-leveling-guide">wow-professions: Alchemy leveling</a> (trainers, vendors)</li>
       <li><a href="https://leprestore.com/guides/world-of-warcraft-forever/wow-forever-alchemy-leveling-guide-1-300/">Leprestore: Alchemy leveling</a> (Horde recipe sources)</li>
@@ -257,7 +258,7 @@ const ROUTE = [
   ["215-225", "Greater Mana Potion", 11, "Khadgar's Whisker, Goldthorn, Leaded Vial"],
   ["225", "Train Artisan with Rogvar in Stonard"],
   ["225-230", "Greater Mana Potion", 6, "Khadgar's Whisker, Goldthorn, Leaded Vial"],
-  ["230-265", "Draught of Detect Undead", 45, "Arthas' Tears, Crystal Vial", "Check the Horde recipe source first."],
+  ["230-265", "Draught of Detect Undead", 45, "Arthas' Tears, Crystal Vial", "Learn it from Rogvar in Stonard."],
   ["265-290", "Superior Mana Potion", 30, "2 Sungrass, 2 Blindweed, Crystal Vial", "Bought recipe."],
   ["290-300", "Major Frenzy Potion", 17, "3 Plaguebloom, 2 Blindweed, Imbued Vial", "Bought recipe."],
 ];
